@@ -1,4 +1,4 @@
-# 🇮🇳 Smart India Hackathon (SIH 2026) — Presentation & Pitch Deck Guide
+# 🇮🇳 Citizen Benefit Intelligence — Platform Architecture & Presentation Guide
 ## Project: Multi-Agent Intelligence for Citizen Benefits
 > **"From Scheme Search to Benefit Access"**  
 > *One Profile. Multiple Benefits. Explainable AI. Guided Access.*
@@ -187,7 +187,7 @@ $$\text{ASK} \longrightarrow \text{UNDERSTAND} \longrightarrow \text{DISCOVER} \
 | Role | Email | Password | Pre-configured Demo Profile |
 | :--- | :--- | :--- | :--- |
 | **Demo Citizen** | `citizen@example.com` | `citizen123` | Karthik Subramanian, 19, Student, UG, Tamil Nadu, Income ₹2,00,000, OBC |
-| **Demo Admin** | `admin@sih2026.gov.in` | `admin123` | National Welfare Admin Officer (Rule Editor, Audit Logs, Freshness Monitor) |
+| **Demo Admin** | `admin@citizenbenefits.gov.in` | `admin123` | National Welfare Admin Officer (Rule Editor, Audit Logs, Freshness Monitor) |
 
 *(Both accounts are accessible with a single click using the **"1-Click Demo Citizen"** and **"1-Click Demo Admin"** buttons on the login page).*
 
@@ -204,5 +204,5 @@ $$\text{ASK} \longrightarrow \text{UNDERSTAND} \longrightarrow \text{DISCOVER} \
 
 ---
 
-## 7. SIH 2026 Impact & Vision
+## 7. Real-World Impact & Vision
 > *"By bridging the gap between existing government portals and real citizen understanding, Multi-Agent Intelligence ensures that no citizen is left behind simply because they didn't know what to ask or how to apply."*
