@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { 
   Bot, 
   Send, 
@@ -15,7 +15,8 @@ import {
   FileText, 
   ShieldCheck, 
   ExternalLink,
-  Layers
+  Layers,
+  AlertCircle
 } from 'lucide-react';
 import { api } from '../services/api';
 import { voiceService } from '../services/voice';
@@ -24,6 +25,33 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { SchemeCard } from '../components/SchemeCard';
 import { AIAuditModal } from '../components/AIAuditModal';
+
+const FORM_FIELD_EXPLANATIONS: Record<string, { label: string; explanation: string; example: string; pitfall: string }> = {
+  annual_income: {
+    label: "Annual Family Income",
+    explanation: "Aggregate gross annual income of all earning household members (parents, applicant, unmarried siblings) in the preceding financial year.",
+    example: "₹2,00,000",
+    pitfall: "Do not enter just your own student pocket allowance; enter total verified on your official Revenue Income Certificate."
+  },
+  aishe_code: {
+    label: "AISHE Code",
+    explanation: "Unique institution code (e.g. C-12345 or U-0123) assigned to recognized colleges & universities by Ministry of Education.",
+    example: "C-43921",
+    pitfall: "Entering the wrong AISHE code routes your application to an incorrect college verification officer."
+  },
+  patta_number: {
+    label: "Patta / Khata Number",
+    explanation: "Official revenue account number designating agricultural land parcel ownership in the state land register.",
+    example: "Patta No: 1482",
+    pitfall: "Ensure the landowner name associated with this Patta matches your Aadhaar KYC exactly."
+  },
+  aadhaar_seeded_bank: {
+    label: "Aadhaar Seeded Bank Account",
+    explanation: "Direct Benefit Transfer (DBT) funds require NPCI Aadhaar Payments Bridge (APB) mapping, not just basic KYC linking.",
+    example: "State Bank of India (Aadhaar Seeded)",
+    pitfall: "Having Aadhaar linked for bank KYC is different from NPCI DBT seeding. Verify status with your branch or on UMANG."
+  }
+};
 
 interface Message {
   id: string;
@@ -50,6 +78,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
   const [loading, setLoading] = useState<boolean>(false);
   const [conversationId, setConversationId] = useState<number | undefined>(undefined);
   const [speakingMsgId, setSpeakingMsgId] = useState<string | null>(null);
+  const [selectedFormField, setSelectedFormField] = useState<string | null>(null);
 
   // Audit modal state
   const [auditModalOpen, setAuditModalOpen] = useState<boolean>(false);
@@ -345,40 +374,140 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
 
             {/* Application Packet Steps Render */}
             {msg.card_type === 'application_packet' && msg.card_data && (
-              <div className="w-full max-w-2xl p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3 text-xs">
-                <span className="text-[11px] font-bold uppercase text-indigo-600">
-                  Pre-Application Guidance Packet
-                </span>
-                <h4 className="font-bold text-sm text-slate-900 dark:text-white">
-                  {msg.card_data.scheme_name}
-                </h4>
+              <div className="w-full max-w-2xl p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase text-indigo-600 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
+                    Pre-Application Guidance Packet
+                  </span>
+                  <span className="text-slate-400 text-[10px]">
+                    Mode: {msg.card_data.application_mode || 'Online Portal'}
+                  </span>
+                </div>
 
+                <div>
+                  <h4 className="font-bold text-base text-slate-900 dark:text-white">
+                    {msg.card_data.scheme_name}
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    {msg.card_data.eligibility_summary}
+                  </p>
+                </div>
+
+                {/* Items to Keep Ready Checklist */}
+                {msg.card_data.info_to_keep_ready && (
+                  <div className="p-3.5 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 space-y-2">
+                    <span className="font-bold text-amber-900 dark:text-amber-300 block text-[11px] uppercase tracking-wider">
+                      📋 Items to Keep Ready Before Starting:
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-amber-950 dark:text-amber-200 text-[11px]">
+                      {msg.card_data.info_to_keep_ready.map((item: string, idx: number) => (
+                        <div key={idx} className="flex items-center gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Numbered Application Steps */}
                 <div className="space-y-2">
-                  <span className="font-semibold text-slate-700 dark:text-slate-300 block">
-                    Numbered Application Steps:
+                  <span className="font-bold text-slate-700 dark:text-slate-300 block text-[11px] uppercase tracking-wider">
+                    Step-by-Step Official Application Flow:
                   </span>
                   {msg.card_data.application_steps?.map((s: any, i: number) => (
-                    <div key={i} className="flex items-start gap-2">
+                    <div key={i} className="flex items-start gap-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
                       <span className="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center shrink-0 text-[10px]">
                         {s.step}
                       </span>
                       <div>
-                        <strong className="text-slate-800 dark:text-slate-200">{s.title}:</strong> {s.detail}
+                        <strong className="text-slate-900 dark:text-slate-100">{s.title}:</strong>{' '}
+                        <span className="text-slate-600 dark:text-slate-300">{s.detail}</span>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-2 flex items-center justify-between">
+                {/* Form Field Explainer Section */}
+                <div className="p-3.5 rounded-xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/60 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-indigo-900 dark:text-indigo-300 text-[11px] flex items-center gap-1">
+                      <HelpCircle className="w-3.5 h-3.5 text-indigo-600" />
+                      Portal Form Field Explainer:
+                    </span>
+                    <span className="text-[10px] text-indigo-500 font-medium">Click a term to explain</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Object.entries(FORM_FIELD_EXPLANATIONS).map(([key, val]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => setSelectedFormField(selectedFormField === key ? null : key)}
+                        className={`px-2.5 py-1 rounded-lg border text-[11px] font-medium transition-colors ${
+                          selectedFormField === key
+                            ? 'bg-indigo-600 text-white border-indigo-600'
+                            : 'bg-white dark:bg-slate-900 border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-950'
+                        }`}
+                      >
+                        {val.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {selectedFormField && FORM_FIELD_EXPLANATIONS[selectedFormField] && (
+                    <div className="p-3 rounded-lg bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 space-y-1.5 mt-2">
+                      <div className="flex items-center justify-between">
+                        <strong className="text-indigo-700 dark:text-indigo-300 text-xs">
+                          {FORM_FIELD_EXPLANATIONS[selectedFormField].label}
+                        </strong>
+                        <span className="text-[10px] font-semibold text-slate-500">
+                          e.g. {FORM_FIELD_EXPLANATIONS[selectedFormField].example}
+                        </span>
+                      </div>
+                      <p className="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                        {FORM_FIELD_EXPLANATIONS[selectedFormField].explanation}
+                      </p>
+                      <div className="text-[10px] text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 p-1.5 rounded flex items-start gap-1">
+                        <AlertCircle className="w-3 h-3 shrink-0 mt-0.5" />
+                        <span><strong>Common Pitfall:</strong> {FORM_FIELD_EXPLANATIONS[selectedFormField].pitfall}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* After Submission Steps */}
+                {msg.card_data.after_submission_steps && (
+                  <div className="space-y-1">
+                    <span className="font-semibold text-slate-700 dark:text-slate-300 block text-[11px]">
+                      Post-Submission Checklist:
+                    </span>
+                    {msg.card_data.after_submission_steps.map((step: string, idx: number) => (
+                      <div key={idx} className="flex items-center gap-1.5 text-slate-500 text-[11px]">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
+                        <span>{step}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800">
                   <a
                     href={msg.card_data.official_portal}
                     target="_blank"
                     rel="noreferrer"
-                    className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold flex items-center gap-1.5"
+                    className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center gap-1.5 shadow-sm transition-colors text-xs"
                   >
                     <span>Proceed to Official Government Portal</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
+
+                  <Link
+                    to="/applications"
+                    className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-colors"
+                  >
+                    Track Manually on Dashboard
+                  </Link>
                 </div>
               </div>
             )}

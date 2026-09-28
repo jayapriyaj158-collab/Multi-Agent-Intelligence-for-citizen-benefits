@@ -5,17 +5,26 @@ import { api } from '../services/api';
 import { Scheme } from '../types';
 
 export const SchemeComparePage: React.FC = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [schemes, setSchemes] = useState<Scheme[]>([]);
+  const [allAvailableSchemes, setAllAvailableSchemes] = useState<Scheme[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  // Load all available schemes for selector
+  useEffect(() => {
+    api.getSchemes().then(setAllAvailableSchemes).catch(console.warn);
+  }, []);
 
   useEffect(() => {
     const idsParam = searchParams.get('ids');
     if (!idsParam) {
       setLoading(false);
+      setSchemes([]);
       return;
     }
     const ids = idsParam.split(',').filter(Boolean);
+    setSelectedIds(ids);
     const fetchCompare = async () => {
       setLoading(true);
       try {
@@ -30,6 +39,32 @@ export const SchemeComparePage: React.FC = () => {
     fetchCompare();
   }, [searchParams]);
 
+  const handleApplyPreset = (presetIds: string[]) => {
+    setSearchParams({ ids: presetIds.join(',') });
+  };
+
+  const handleToggleSelectScheme = (schemeId: string) => {
+    let next: string[];
+    if (selectedIds.includes(schemeId)) {
+      next = selectedIds.filter((id) => id !== schemeId);
+    } else {
+      if (selectedIds.length >= 4) {
+        alert("You can compare up to 4 schemes simultaneously.");
+        return;
+      }
+      next = [...selectedIds, schemeId];
+    }
+    setSelectedIds(next);
+  };
+
+  const handleRunCustomCompare = () => {
+    if (selectedIds.length < 2) {
+      alert("Please select at least 2 schemes to compare.");
+      return;
+    }
+    setSearchParams({ ids: selectedIds.join(',') });
+  };
+
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-3">
@@ -41,13 +76,123 @@ export const SchemeComparePage: React.FC = () => {
 
   if (schemes.length === 0) {
     return (
-      <div className="max-w-md mx-auto px-4 py-16 text-center space-y-4">
-        <Scale className="w-12 h-12 text-slate-300 mx-auto" />
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white">No Schemes Selected</h2>
-        <p className="text-xs text-slate-500">Go to the Scheme Explorer and select 2 to 4 schemes using the scale icon to compare them.</p>
-        <Link to="/explorer" className="inline-block px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-semibold">
-          Open Scheme Explorer
-        </Link>
+      <div className="max-w-4xl mx-auto px-4 py-12 space-y-8">
+        <div className="text-center space-y-3">
+          <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950 flex items-center justify-center mx-auto text-indigo-600">
+            <Scale className="w-7 h-7" />
+          </div>
+          <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white">Scheme Comparison Matrix</h2>
+          <p className="text-xs text-slate-500 max-w-lg mx-auto">
+            Compare 2 to 4 government schemes side-by-side to understand differences in eligibility, income limits, disbursements, and required certificates.
+          </p>
+        </div>
+
+        {/* 1-Click Comparison Presets */}
+        <div className="space-y-3">
+          <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+            Quick Comparison Presets:
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <button
+              onClick={() => handleApplyPreset(['SCHEME-NSP-POSTMATRIC-001', 'SCHEME-CENTRAL-SECTOR-003'])}
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 text-left transition-all shadow-sm group"
+            >
+              <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider block">🎓 Higher Education</span>
+              <span className="font-bold text-xs text-slate-900 dark:text-white group-hover:text-indigo-600 block mt-1">
+                Post-Matric Scholarship vs Central Sector Scholarship
+              </span>
+              <p className="text-[11px] text-slate-500 mt-1">
+                Compares caste-based welfare criteria vs merit-based percentile criteria.
+              </p>
+            </button>
+
+            <button
+              onClick={() => handleApplyPreset(['SCHEME-TN-PUDHUMAI-002', 'SCHEME-TN-NAAN-009'])}
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 text-left transition-all shadow-sm group"
+            >
+              <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">👩‍🎓 Tamil Nadu Student Welfare</span>
+              <span className="font-bold text-xs text-slate-900 dark:text-white group-hover:text-indigo-600 block mt-1">
+                Pudhumai Penn Scheme vs Naan Mudhalvan
+              </span>
+              <p className="text-[11px] text-slate-500 mt-1">
+                Compares monthly girl student stipend (₹1,000/mo) vs industry skilling voucher.
+              </p>
+            </button>
+
+            <button
+              onClick={() => handleApplyPreset(['SCHEME-PM-KISAN-004', 'SCHEME-PM-VISHWAKARMA-008'])}
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 text-left transition-all shadow-sm group"
+            >
+              <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider block">🌾 Agriculture & Artisans</span>
+              <span className="font-bold text-xs text-slate-900 dark:text-white group-hover:text-indigo-600 block mt-1">
+                PM-KISAN vs PM Vishwakarma
+              </span>
+              <p className="text-[11px] text-slate-500 mt-1">
+                Compares direct income support (₹6,000) vs artisan toolkit & subsidized credit.
+              </p>
+            </button>
+
+            <button
+              onClick={() => handleApplyPreset(['SCHEME-AB-PMJAY-005', 'SCHEME-PMAY-U-006'])}
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 text-left transition-all shadow-sm group"
+            >
+              <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider block">🏥 Health & Urban Housing</span>
+              <span className="font-bold text-xs text-slate-900 dark:text-white group-hover:text-indigo-600 block mt-1">
+                Ayushman Bharat (AB-PMJAY) vs PMAY Urban 2.0
+              </span>
+              <p className="text-[11px] text-slate-500 mt-1">
+                Compares cashless hospital coverage (₹5 Lakh) vs housing credit subsidy.
+              </p>
+            </button>
+          </div>
+        </div>
+
+        {/* Custom Multi-Selector */}
+        <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white">
+              Or Select Schemes Manually (Choose 2 to 4):
+            </h3>
+            <span className="text-xs font-semibold text-indigo-600">
+              {selectedIds.length} Selected
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-64 overflow-y-auto pr-1">
+            {allAvailableSchemes.map((s) => {
+              const checked = selectedIds.includes(s.scheme_id);
+              return (
+                <label
+                  key={s.id}
+                  className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-colors text-xs ${
+                    checked
+                      ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/40 text-indigo-900 dark:text-indigo-200 font-semibold'
+                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-300'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => handleToggleSelectScheme(s.scheme_id)}
+                    className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500"
+                  />
+                  <div className="truncate">
+                    <span className="block truncate">{s.scheme_name}</span>
+                    <span className="text-[10px] text-slate-400">{s.category} • {s.state}</span>
+                  </div>
+                </label>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={handleRunCustomCompare}
+            disabled={selectedIds.length < 2}
+            className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold text-xs shadow-sm transition-colors"
+          >
+            Compare {selectedIds.length} Selected Schemes
+          </button>
+        </div>
       </div>
     );
   }
@@ -66,9 +211,17 @@ export const SchemeComparePage: React.FC = () => {
             <span>Factual Scheme Comparison Matrix</span>
           </h1>
         </div>
-        <span className="text-xs font-semibold text-slate-500">
-          Comparing {schemes.length} Schemes
-        </span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setSearchParams({})}
+            className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            Change Schemes
+          </button>
+          <span className="text-xs font-semibold text-slate-500">
+            Comparing {schemes.length} Schemes
+          </span>
+        </div>
       </div>
 
       {/* Comparison Table */}
