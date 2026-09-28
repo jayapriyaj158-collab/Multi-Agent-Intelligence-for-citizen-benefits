@@ -175,7 +175,7 @@ export const SchemeDetailPage: React.FC = () => {
                 return;
               }
               const res = await api.createApplication({ scheme_id: scheme.id });
-              alert(`Application registered for Manual Demo Tracking! Tracking ID: ${res.application_number}`);
+              alert(`Application registered successfully for tracking! Tracking ID: ${res.application_number}`);
               navigate('/applications');
             }}
             className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 text-xs font-semibold"

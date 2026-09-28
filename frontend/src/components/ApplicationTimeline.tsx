@@ -54,9 +54,6 @@ export const ApplicationTimeline: React.FC<ApplicationTimelineProps> = ({ applic
             <span className="font-bold text-sm text-slate-900 dark:text-white">
               {application.scheme?.scheme_name || "Government Welfare Scheme"}
             </span>
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
-              Manual Demo Tracking
-            </span>
           </div>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
             Application No: <span className="font-semibold text-slate-700 dark:text-slate-300">{application.application_number}</span>

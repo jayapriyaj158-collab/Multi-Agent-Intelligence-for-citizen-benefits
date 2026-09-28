@@ -141,7 +141,7 @@ export const CitizenDashboard: React.FC = () => {
               Upload Income Certificate
             </h4>
             <p className="text-[11px] text-slate-500">
-              Required for Post-Matric & Central Sector scholarship sanctions.
+              Required for scholarship and welfare benefit sanctions.
             </p>
           </Link>
 
@@ -157,10 +157,10 @@ export const CitizenDashboard: React.FC = () => {
               <Clock className="w-4 h-4 text-amber-600" />
             </div>
             <h4 className="font-bold text-xs text-slate-900 dark:text-white pt-1">
-              Scholarship Verification
+              Application Verification
             </h4>
             <p className="text-[11px] text-slate-500">
-              Application portal window closes in 24 days. Complete institution check.
+              Window closes soon. Complete verification check.
             </p>
           </Link>
 
@@ -179,7 +179,7 @@ export const CitizenDashboard: React.FC = () => {
               Profile Almost Ready
             </h4>
             <p className="text-[11px] text-slate-500">
-              Add your current college course and marks to unlock merit grants.
+              Add your qualification and profile details to unlock more benefits.
             </p>
           </Link>
 
@@ -211,7 +211,7 @@ export const CitizenDashboard: React.FC = () => {
           <div className="text-2xl font-extrabold text-slate-900 dark:text-white">
             {recommendedSchemes.length}
           </div>
-          <span className="text-[10px] text-emerald-600 font-semibold">Based on student profile</span>
+          <span className="text-[10px] text-emerald-600 font-semibold">{profile?.occupation ? `Based on ${profile.occupation.toLowerCase()} profile` : 'Based on your profile'}</span>
         </div>
 
         <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1">
@@ -227,7 +227,7 @@ export const CitizenDashboard: React.FC = () => {
           <div className="text-2xl font-extrabold text-slate-900 dark:text-white">
             {applications.length}
           </div>
-          <span className="text-[10px] text-slate-500 font-semibold">Manual Demo Tracking</span>
+          <span className="text-[10px] text-slate-500 font-semibold">Submitted Applications</span>
         </div>
 
         <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1">
@@ -259,7 +259,7 @@ export const CitizenDashboard: React.FC = () => {
           </div>
 
           <p className="text-xs text-purple-200 leading-relaxed">
-            {benefitGap.gap_prompt} Beyond your primary scholarship, you may qualify for:
+            {benefitGap.gap_prompt} Beyond your primary entitlements, you may qualify for:
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -302,7 +302,7 @@ export const CitizenDashboard: React.FC = () => {
               eligibilityStatus="LIKELY ELIGIBLE"
               matchScore={88}
               readinessPercentage={75}
-              rankingReason="Matches your education profile and income range"
+              rankingReason={profile?.occupation ? `Matches your ${profile.occupation.toLowerCase()} profile and income range` : "Matches your verified profile criteria"}
             />
           ))}
         </div>

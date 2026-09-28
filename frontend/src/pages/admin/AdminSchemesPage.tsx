@@ -104,7 +104,7 @@ export const AdminSchemesPage: React.FC = () => {
             <option value="All">All Statuses</option>
             <option value="VERIFIED">Verified</option>
             <option value="NEEDS_REVIEW">Needs Review</option>
-            <option value="DEMO">Demo Data</option>
+            <option value="DEMO">Draft Scheme</option>
             <option value="ARCHIVED">Archived</option>
           </select>
         </div>

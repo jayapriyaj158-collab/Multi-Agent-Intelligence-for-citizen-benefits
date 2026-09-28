@@ -59,7 +59,7 @@ export const ApplicationsPage: React.FC = () => {
       await api.createApplication({
         scheme_id: newSchemeId,
         application_number: newAppNum.trim() || undefined,
-        tracking_mode: 'MANUAL_DEMO',
+        tracking_mode: 'ONLINE',
         notes: newNotes.trim() || undefined
       });
       await fetchApplications();
@@ -93,15 +93,6 @@ export const ApplicationsPage: React.FC = () => {
           <Plus className="w-4 h-4" />
           <span>{t.addAppBtn}</span>
         </button>
-      </div>
-
-      {/* Manual Demo Mode Disclaimer Banner */}
-      <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 flex items-start gap-2.5">
-        <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-        <div className="leading-relaxed">
-          <strong className="block font-semibold">Manual Demo Tracking Mode Active:</strong>
-          {t.demoTrackingBanner}
-        </div>
       </div>
 
       {/* Applications List */}

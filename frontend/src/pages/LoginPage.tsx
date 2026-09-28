@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Bot, Lock, Mail, ArrowRight, UserCheck, ShieldCheck, AlertCircle, Globe, Info, X } from 'lucide-react';
+import { Bot, Lock, Mail, ArrowRight, AlertCircle, Globe, Info, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage, LanguageCode } from '../contexts/LanguageContext';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { login, loginAsDemoCitizen, loginAsDemoAdmin } = useAuth();
+  const { login } = useAuth();
   const { language, setLanguage, t } = useLanguage();
 
   const [email, setEmail] = useState('');
@@ -23,31 +23,7 @@ export const LoginPage: React.FC = () => {
       await login(email, password);
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.message || t.loginFailed);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDemoCitizen = async () => {
-    setLoading(true);
-    try {
-      await loginAsDemoCitizen();
-      navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDemoAdmin = async () => {
-    setLoading(true);
-    try {
-      await loginAsDemoAdmin();
-      navigate('/admin');
-    } catch (err: any) {
-      setError(err.message);
+      setError(t.invalidCredentials || 'Invalid email or password.');
     } finally {
       setLoading(false);
     }
@@ -138,35 +114,6 @@ export const LoginPage: React.FC = () => {
         </div>
       )}
 
-      {/* 1-Click Fast Demo Logins */}
-      <div className="p-4 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 space-y-2.5">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 block">
-          {t.demoCredentialsTitle}
-        </span>
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={handleDemoCitizen}
-            disabled={loading}
-            className="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-indigo-300 dark:border-indigo-700 hover:bg-indigo-50/50 text-indigo-950 dark:text-indigo-200 text-xs font-semibold flex items-center justify-center gap-1.5 shadow-xs transition-colors"
-          >
-            <UserCheck className="w-4 h-4 text-indigo-600" />
-            <span>{t.demoCitizenBtn}</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleDemoAdmin}
-            disabled={loading}
-            className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-xs transition-colors"
-          >
-            <ShieldCheck className="w-4 h-4 text-purple-400" />
-            <span>{t.demoAdminBtn}</span>
-          </button>
-        </div>
-        <p className="text-[10px] text-slate-500 text-center">
-          {t.demoCitizenDesc}
-        </p>
-      </div>
 
       {/* Regular Email/Password Form */}
       <form onSubmit={handleSubmit} className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">

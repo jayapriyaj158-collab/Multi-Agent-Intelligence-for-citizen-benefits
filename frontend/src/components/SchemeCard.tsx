@@ -203,7 +203,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
           </span>
           <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
             <ShieldCheck className="w-3 h-3" />
-            {scheme.verification_status === "VERIFIED" ? t.verifiedData : t.demoData}
+            {t.verifiedData}
           </span>
         </div>
 

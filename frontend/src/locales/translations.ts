@@ -41,10 +41,7 @@ export interface UIStrings {
   passwordPlaceholder: string;
   forgotPassword: string;
   forgotPasswordNotice: string;
-  demoCredentialsTitle: string;
-  demoCitizenBtn: string;
-  demoAdminBtn: string;
-  demoCitizenDesc: string;
+  invalidCredentials: string;
   noAccountText: string;
   alreadyAccountText: string;
   registerTitle: string;
@@ -103,7 +100,6 @@ export interface UIStrings {
   ready: string;
   openYearRound: string;
   verifiedData: string;
-  demoData: string;
   whyRanks: string;
   keyBenefit: string;
 
@@ -139,7 +135,6 @@ export interface UIStrings {
   appTrackingTitle: string;
   appTrackingSubtitle: string;
   addAppBtn: string;
-  demoTrackingBanner: string;
   applicationNo: string;
   submittedOn: string;
   currentStatus: string;
@@ -204,14 +199,11 @@ export interface UIStrings {
 
   // Footer
   footerAbout: string;
-  officialEcosystem: string;
-  ecosystemSubtitle: string;
   quickLinks: string;
   disclaimerTitle: string;
   disclaimerText: string;
   copyright: string;
   adminControlCenter: string;
-  demoDisclaimer: string;
 }
 
 export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
@@ -246,15 +238,12 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     loginHeading: "Sign In to Citizen Benefit Intelligence",
     loginSubheading: "Access your personalized government benefits, document intelligence, and status tracking.",
     emailLabel: "Email Address or Mobile Number",
-    emailPlaceholder: "citizen@example.com",
+    emailPlaceholder: "name@example.com or 10-digit mobile",
     passwordLabel: "Password",
     passwordPlaceholder: "••••••••",
     forgotPassword: "Forgot password?",
     forgotPasswordNotice: "Password recovery instructions will be sent to your registered email or mobile number.",
-    demoCredentialsTitle: "Demo Evaluation Credentials:",
-    demoCitizenBtn: "Demo Citizen",
-    demoAdminBtn: "Demo Admin",
-    demoCitizenDesc: "Student Profile, Tamil Nadu, Family Income ₹2,00,000",
+    invalidCredentials: "Invalid email or password.",
     noAccountText: "Don't have an account?",
     alreadyAccountText: "Already have an account?",
     registerTitle: "Create Citizen Account",
@@ -265,7 +254,7 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     phonePlaceholder: "9876543210",
     loginAction: "Sign In to Account",
     registerAction: "Create Citizen Profile",
-    loginFailed: "Invalid email or password. Please verify your credentials.",
+    loginFailed: "Invalid email or password.",
     registerFailed: "Registration failed. An account with this email may already exist.",
 
     vanakkam: "Welcome",
@@ -278,7 +267,7 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     recommendedSchemesSubtitle: "Ranked by deterministic rules & profile compatibility",
     exploreAllSchemes: "Explore All Schemes",
     activeApplicationsTitle: "Active Applications",
-    activeApplicationsSubtitle: "Real-time demo tracking for submitted benefits",
+    activeApplicationsSubtitle: "Real-time status tracking for submitted benefits",
     noApplicationsYet: "No applications tracked yet. Click on any scheme to start application tracking.",
     documentStatusTitle: "Document Intelligence & Readiness",
     documentStatusSubtitle: "Verified certificates and gap analysis",
@@ -311,7 +300,6 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     ready: "Ready",
     openYearRound: "Open Year-Round",
     verifiedData: "Verified Data",
-    demoData: "Demo Data",
     whyRanks: "Why this ranks:",
     keyBenefit: "Key Benefit:",
 
@@ -344,7 +332,6 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     appTrackingTitle: "Application Tracking Center",
     appTrackingSubtitle: "Track progress and status milestones for your submitted government benefits.",
     addAppBtn: "Add Application to Track",
-    demoTrackingBanner: "Manual Demo Tracking Active: Use this dashboard to record and monitor real application milestones.",
     applicationNo: "Application No:",
     submittedOn: "Submitted On:",
     currentStatus: "Current Status:",
@@ -404,14 +391,11 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     simpleCategoryPension: "Senior & Widow Pension",
 
     footerAbout: "Multi-Agent AI system providing explainable eligibility, document intelligence, and multilingual voice assistance for Indian citizens.",
-    officialEcosystem: "Official Indian Ecosystem",
-    ecosystemSubtitle: "Designed as an intelligent assistance layer above official portals:",
     quickLinks: "Quick Links",
-    disclaimerTitle: "Important Advisory Disclaimer",
-    disclaimerText: "Non-Government Entity Notice: This platform acts as an advisory search, rule evaluation, and application navigation assistant. It does not issue official approvals or collect fees.",
+    disclaimerTitle: "Important Advisory & Disclaimer",
+    disclaimerText: "This platform acts as an advisory search, rule evaluation, and application navigation assistant to help citizens discover and access welfare benefits. It does not issue official approvals or collect fees.",
     copyright: "© 2026 Citizen Benefit Intelligence. All rights reserved.",
-    adminControlCenter: "Admin Control Center",
-    demoDisclaimer: "Operates as an intelligence layer above official Indian digital platforms (myScheme, UMANG, DigiLocker)."
+    adminControlCenter: "Admin Control Center"
   },
 
   ta: {
@@ -445,15 +429,12 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     loginHeading: "குடிமக்கள் நலத்திட்ட தளத்தில் உள்நுழைக",
     loginSubheading: "உங்கள் தகுதிக்கேற்ற அரசு நலத்திட்டங்கள், ஆவண சரிபார்ப்பு மற்றும் விண்ணப்ப நிலையை அணுகவும்.",
     emailLabel: "மின்னஞ்சல் முகவரி அல்லது கைபேசி எண்",
-    emailPlaceholder: "citizen@example.com",
+    emailPlaceholder: "பெயர்@example.com அல்லது 10-இலக்க எண்",
     passwordLabel: "கடவுச்சொல்",
     passwordPlaceholder: "••••••••",
     forgotPassword: "கடவுச்சொல்லை மறந்துவிட்டீர்களா?",
     forgotPasswordNotice: "கடவுச்சொல் மீட்பு வழிமுறைகள் உங்கள் பதிவு செய்யப்பட்ட மின்னஞ்சல் அல்லது கைபேசிக்கு அனுப்பப்படும்.",
-    demoCredentialsTitle: "மாதிரி மதிப்பீட்டு சான்றுகள்:",
-    demoCitizenBtn: "மாதிரி குடிமகன்",
-    demoAdminBtn: "மாதிரி நிர்வாகி",
-    demoCitizenDesc: "மாணவர் சுயவிவரம், தமிழ்நாடு, குடும்ப வருமானம் ₹2,00,000",
+    invalidCredentials: "தவறான மின்னஞ்சல் அல்லது கடவுச்சொல்.",
     noAccountText: "கணக்கு இல்லையா?",
     alreadyAccountText: "ஏற்கனவே கணக்கு உள்ளதா?",
     registerTitle: "குடிமகன் கணக்கை உருவாக்குக",
@@ -464,7 +445,7 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     phonePlaceholder: "9876543210",
     loginAction: "கணக்கில் உள்நுழைக",
     registerAction: "குடிமகன் சுயவிவரத்தை உருவாக்குக",
-    loginFailed: "தவறான மின்னஞ்சல் அல்லது கடவுச்சொல். உங்கள் விவரங்களை சரிபார்க்கவும்.",
+    loginFailed: "தவறான மின்னஞ்சல் அல்லது கடவுச்சொல்.",
     registerFailed: "பதிவு தோல்வியடைந்தது. இந்த மின்னஞ்சலில் ஏற்கனவே கணக்கு இருக்கலாம்.",
 
     vanakkam: "வணக்கம்",
@@ -510,7 +491,6 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     ready: "தயார்",
     openYearRound: "ஆண்டு முழுவதும் விண்ணப்பிக்கலாம்",
     verifiedData: "சரிபார்க்கப்பட்ட தகவல்",
-    demoData: "மாதிரி தகவல்",
     whyRanks: "இது ஏன் பொருந்துகிறது:",
     keyBenefit: "முக்கிய பயன்:",
 
@@ -543,7 +523,6 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     appTrackingTitle: "விண்ணப்பங்கள் கண்காணிப்பு மையம்",
     appTrackingSubtitle: "சமர்ப்பிக்கப்பட்ட அரசு நலத்திட்டங்களின் முன்னேற்றத்தை எளிதாகக் கண்காணியுங்கள்.",
     addAppBtn: "புதிய விண்ணப்பத்தை இணைக்க",
-    demoTrackingBanner: "நேரடி மாதிரி கண்காணிப்பு செயலில் உள்ளது: உங்கள் விண்ணப்ப நிலையை பதிவு செய்து கண்காணிக்க இதைப் பயன்படுத்தவும்.",
     applicationNo: "விண்ணப்ப எண்:",
     submittedOn: "சமர்ப்பிக்கப்பட்ட தேதி:",
     currentStatus: "தற்போதைய நிலை:",
@@ -603,14 +582,11 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     simpleCategoryPension: "முதியோர் மற்றும் விதவை ஓய்வூதியம்",
 
     footerAbout: "இந்தியக் குடிமக்களுக்கு தகுதி விளக்கம், ஆவண நுண்ணறிவு மற்றும் பலமொழி குரல் வழிகாட்டலை வழங்கும் பல-முகவர் AI தளம்.",
-    officialEcosystem: "அதிகாரப்பூர்வ இந்திய அரசு தளங்கள்",
-    ecosystemSubtitle: "அரசு தளங்களுக்கு மேலான அறிவார்ந்த உதவி அமைப்பாக வடிவமைக்கப்பட்டது:",
     quickLinks: "முக்கிய இணைப்புகள்",
-    disclaimerTitle: "முக்கிய அறிவிப்பு மற்றும் வழிகாட்டல்",
-    disclaimerText: "அரசு சாரா அமைப்பு அறிவிப்பு: இந்த தளம் ஒரு வழிகாட்டுதல், தகுதி மதிப்பீடு மற்றும் விண்ணப்ப உதவி அமைப்பாக மட்டுமே செயல்படுகிறது. இது அரசு ஒப்புதல்களை வழங்குவதில்லை அல்லது கட்டணம் வசூலிப்பதில்லை.",
+    disclaimerTitle: "முக்கிய வழிகாட்டல் மற்றும் பொறுப்புத் துறப்பு",
+    disclaimerText: "இந்த தளம் ஒரு வழிகாட்டுதல், தகுதி மதிப்பீடு மற்றும் விண்ணப்ப உதவி அமைப்பாக செயல்படுகிறது. இது அரசு ஒப்புதல்களை வழங்குவதில்லை அல்லது கட்டணம் வசூலிப்பதில்லை.",
     copyright: "© 2026 குடிமக்கள் நலத்திட்ட நுண்ணறிவு தளம். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
-    adminControlCenter: "நிர்வாக கட்டுப்பாட்டு மையம்",
-    demoDisclaimer: "அதிகாரப்பூர்வ இந்திய அரசு தளங்களுக்கு (myScheme, UMANG, DigiLocker) மேலான அறிவார்ந்த அடுக்கு."
+    adminControlCenter: "நிர்வாக கட்டுப்பாட்டு மையம்"
   },
 
   hi: {
@@ -644,15 +620,12 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     loginHeading: "नागरिक लाभ मंच में साइन इन करें",
     loginSubheading: "अपनी व्यक्तिगत सरकारी योजनाओं, दस्तावेज़ सत्यापन और आवेदन स्थिति तक पहुँचें।",
     emailLabel: "ईमेल पता अथवा मोबाइल नंबर",
-    emailPlaceholder: "citizen@example.com",
+    emailPlaceholder: "नाम@example.com अथवा 10-अंकीय नंबर",
     passwordLabel: "पासवर्ड",
     passwordPlaceholder: "••••••••",
     forgotPassword: "पासवर्ड भूल गए?",
     forgotPasswordNotice: "पासवर्ड रीसेट करने के निर्देश आपके पंजीकृत ईमेल अथवा मोबाइल नंबर पर भेजे जाएंगे।",
-    demoCredentialsTitle: "डेमो मूल्यांकन क्रेडेंशियल:",
-    demoCitizenBtn: "डेमो नागरिक",
-    demoAdminBtn: "डेमो प्रशासक",
-    demoCitizenDesc: "छात्र प्रोफ़ाइल, तमिलनाडु, पारिवारिक आय ₹2,00,000",
+    invalidCredentials: "अमान्य ईमेल या पासवर्ड।",
     noAccountText: "क्या आपका खाता नहीं है?",
     alreadyAccountText: "क्या आपके पास पहले से खाता है?",
     registerTitle: "नागरिक खाता बनाएं",
@@ -663,7 +636,7 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     phonePlaceholder: "9876543210",
     loginAction: "खाते में साइन इन करें",
     registerAction: "नागरिक प्रोफ़ाइल बनाएं",
-    loginFailed: "अमान्य ईमेल या पासवर्ड। कृपया अपने विवरण की जाँच करें।",
+    loginFailed: "अमान्य ईमेल या पासवर्ड।",
     registerFailed: "पंजीकरण विफल रहा। इस ईमेल से खाता पहले से मौजूद हो सकता है।",
 
     vanakkam: "स्वागत है",
@@ -709,7 +682,6 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     ready: "तैयार",
     openYearRound: "वर्ष भर खुला है",
     verifiedData: "सत्यापित डेटा",
-    demoData: "डेमो डेटा",
     whyRanks: "यह क्यों रैंक करता है:",
     keyBenefit: "मुख्य लाभ:",
 
@@ -742,7 +714,6 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     appTrackingTitle: "आवेदन ट्रैकिंग केंद्र",
     appTrackingSubtitle: "अपने जमा किए गए सरकारी लाभों की प्रगति और स्थिति को ट्रैक करें।",
     addAppBtn: "ट्रैक करने के लिए आवेदन जोड़ें",
-    demoTrackingBanner: "मैनुअल ट्रैकिंग सक्रिय है: वास्तविक आवेदन मील के पत्थरों को रिकॉर्ड और मॉनिटर करने के लिए इस डैशबोर्ड का उपयोग करें।",
     applicationNo: "आवेदन संख्या:",
     submittedOn: "जमा करने की तिथि:",
     currentStatus: "वर्तमान स्थिति:",
@@ -802,13 +773,10 @@ export const TRANSLATIONS: Record<LanguageCode, UIStrings> = {
     simpleCategoryPension: "वृद्धावस्था और विधवा पेंशन",
 
     footerAbout: "भारतीय नागरिकों के लिए पात्रता स्पष्टीकरण, दस्तावेज़ सत्यापन और बहुभाषी आवाज़ सहायता प्रदान करने वाला मल्टी-एजेंट एआई मंच।",
-    officialEcosystem: "आधिकारिक भारतीय पोर्टल",
-    ecosystemSubtitle: "सरकारी पोर्टलों के ऊपर एक बुद्धिमान सहायता प्रणाली के रूप में निर्मित:",
     quickLinks: "त्वरित लिंक",
     disclaimerTitle: "महत्वपूर्ण सलाह एवं अस्वीकरण",
-    disclaimerText: "गैर-सरकारी निकाय सूचना: यह मंच केवल परामर्श खोज, पात्रता मूल्यांकन और आवेदन मार्गदर्शन सहायक के रूप में कार्य करता है। यह आधिकारिक स्वीकृति जारी नहीं करता है।",
+    disclaimerText: "यह मंच परामर्श खोज, पात्रता मूल्यांकन और आवेदन मार्गदर्शन सहायक के रूप में कार्य करता है। यह आधिकारिक स्वीकृति जारी नहीं करता है अथवा शुल्क नहीं लेता है।",
     copyright: "© 2026 नागरिक कल्याण लाभ आसूचना मंच। सर्वाधिकार सुरक्षित।",
-    adminControlCenter: "प्रशासन नियंत्रण केंद्र",
-    demoDisclaimer: "आधिकारिक सरकारी पोर्टलों (myScheme, UMANG, DigiLocker) के ऊपर एक बुद्धिमान सहायता प्रणाली।"
+    adminControlCenter: "प्रशासन नियंत्रण केंद्र"
   }
 };

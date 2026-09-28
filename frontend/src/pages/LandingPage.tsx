@@ -21,11 +21,9 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { useAuth } from '../contexts/AuthContext';
 
 export const LandingPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice }) => {
   const { t } = useLanguage();
-  const { loginAsDemoCitizen } = useAuth();
   const navigate = useNavigate();
 
   const handleQuickCategory = (cat: string) => {
