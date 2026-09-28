@@ -8,7 +8,7 @@ export const AboutPage: React.FC = () => {
       {/* Title */}
       <div className="text-center space-y-3">
         <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
-          Smart India Hackathon 2026
+          Citizen Benefit Intelligence Platform
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
           Multi-Agent Intelligence for Citizen Benefits

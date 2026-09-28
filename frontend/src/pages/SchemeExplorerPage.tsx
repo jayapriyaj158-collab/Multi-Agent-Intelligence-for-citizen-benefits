@@ -99,10 +99,10 @@ export const SchemeExplorerPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            {t.navExplorer}
+            {t.explorerHeading}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            Verified Central and State government welfare schemes with transparent eligibility criteria.
+            {t.explorerSubheading}
           </p>
         </div>
 
@@ -138,7 +138,7 @@ export const SchemeExplorerPage: React.FC = () => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by keywords, benefits, or purpose (e.g. 'Scholarship for college', 'Crop insurance', 'Widow pension')..."
+              placeholder={t.searchPlaceholder}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -146,7 +146,7 @@ export const SchemeExplorerPage: React.FC = () => {
             type="submit"
             className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold transition-colors shadow-sm"
           >
-            Search
+            {t.send}
           </button>
         </form>
 
@@ -154,13 +154,13 @@ export const SchemeExplorerPage: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-xs">
           {/* Category */}
           <div>
-            <label className="text-[10px] font-semibold text-slate-400 block mb-1">Category:</label>
+            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.filterByCategory}:</label>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium focus:outline-none"
             >
-              <option value="All">All Categories</option>
+              <option value="All">{t.allCategories}</option>
               <option value="Education">Education & Scholarships</option>
               <option value="Agriculture">Agriculture & Farmers</option>
               <option value="Health">Health & Insurance</option>
@@ -172,13 +172,13 @@ export const SchemeExplorerPage: React.FC = () => {
 
           {/* State */}
           <div>
-            <label className="text-[10px] font-semibold text-slate-400 block mb-1">State / UT:</label>
+            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.filterByState}:</label>
             <select
               value={selectedState}
               onChange={(e) => setSelectedState(e.target.value)}
               className="w-full p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium focus:outline-none"
             >
-              <option value="All India">All India / Central</option>
+              <option value="All India">{t.allStates}</option>
               <option value="Tamil Nadu">Tamil Nadu</option>
               <option value="Uttar Pradesh">Uttar Pradesh</option>
               <option value="Karnataka">Karnataka</option>
@@ -189,13 +189,13 @@ export const SchemeExplorerPage: React.FC = () => {
 
           {/* Occupation */}
           <div>
-            <label className="text-[10px] font-semibold text-slate-400 block mb-1">Occupation:</label>
+            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.filterByOccupation}:</label>
             <select
               value={selectedOccupation}
               onChange={(e) => setSelectedOccupation(e.target.value)}
               className="w-full p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium focus:outline-none"
             >
-              <option value="All">All Occupations</option>
+              <option value="All">{t.allOccupations}</option>
               <option value="Student">Student</option>
               <option value="Farmer">Farmer</option>
               <option value="Unemployed">Unemployed / Job Seeker</option>
@@ -206,13 +206,13 @@ export const SchemeExplorerPage: React.FC = () => {
 
           {/* Gender */}
           <div>
-            <label className="text-[10px] font-semibold text-slate-400 block mb-1">Gender:</label>
+            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.filterByGender}:</label>
             <select
               value={selectedGender}
               onChange={(e) => setSelectedGender(e.target.value)}
               className="w-full p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium focus:outline-none"
             >
-              <option value="All">All Genders</option>
+              <option value="All">{t.allGenders}</option>
               <option value="Female">Female (Women Welfare)</option>
               <option value="Male">Male</option>
             </select>
@@ -226,7 +226,7 @@ export const SchemeExplorerPage: React.FC = () => {
               className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Filters</span>
+              <span>{t.clearFiltersBtn}</span>
             </button>
           </div>
         </div>
@@ -243,16 +243,16 @@ export const SchemeExplorerPage: React.FC = () => {
       ) : schemes.length === 0 ? (
         <div className="py-16 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-3">
           <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-            No schemes found matching your exact filter combination.
+            {t.noSchemesMatch}
           </p>
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            Try resetting your filters or ask the AI Assistant to expand discovery parameters.
+            {t.noSchemesAdvice}
           </p>
           <button
             onClick={handleResetFilters}
             className="px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-semibold"
           >
-            Reset Filters
+            {t.clearFiltersBtn}
           </button>
         </div>
       ) : (

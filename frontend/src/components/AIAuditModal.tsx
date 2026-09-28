@@ -154,7 +154,7 @@ export const AIAuditModal: React.FC<AIAuditModalProps> = ({
         )}
 
         <div className="pt-2 text-[11px] text-slate-400 text-center">
-          Rule-based evaluations are executed deterministically in compliance with SIH 2026 AI ethics guidelines.
+          Rule-based evaluations are executed deterministically in compliance with AI explainability and ethical guidelines.
         </div>
       </div>
     </div>

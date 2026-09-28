@@ -12,9 +12,11 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const BenefitGapPage: React.FC = () => {
   const { profile } = useAuth();
+  const { t } = useLanguage();
   const [gapData, setGapData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -51,10 +53,10 @@ export const BenefitGapPage: React.FC = () => {
           <span>AI Innovation: Autonomous Benefit Gap Discovery</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold">
-          Benefit Gap Analyzer
+          {t.benefitGapHeading}
         </h1>
         <p className="text-xs sm:text-sm text-purple-200 max-w-2xl leading-relaxed">
-          Most citizens apply for one scheme and miss out on complementary benefits. Our AI re-evaluates your complete socio-economic profile to identify bundled entitlements you qualify for.
+          {t.benefitGapSubheading}
         </p>
       </div>
 

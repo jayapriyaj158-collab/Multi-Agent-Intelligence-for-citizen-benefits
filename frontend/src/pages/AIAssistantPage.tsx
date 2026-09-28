@@ -103,8 +103,20 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
           sender: 'orchestrator',
           text: initialText,
           language,
-          suggested_actions: [
-            "Naan college student, scholarship irukka? (Tamil)",
+          suggested_actions: language === 'ta' ? [
+            "நான் கல்லூரி மாணவன், உதவித்தொகை உள்ளதா?",
+            "கல்லூரி கல்விக்கு நிதியுதவி தேவை",
+            "விவசாயிகளுக்கு என்னென்ன திட்டங்கள் உள்ளன?",
+            "வருமானச் சான்றிதழ் பெறுவது எப்படி?",
+            "எனது விண்ணப்பத்தைக் கண்காணிக்கவும்"
+          ] : language === 'hi' ? [
+            "मैं कॉलेज का छात्र हूँ, क्या छात्रवृत्ति उपलब्ध है?",
+            "कॉलेज की पढ़ाई के लिए आर्थिक सहायता चाहिए",
+            "किसानों के लिए कौन सी योजनाएं उपलब्ध हैं?",
+            "आय प्रमाण पत्र कैसे प्राप्त करें?",
+            "मेरा आवेदन ट्रैक करें"
+          ] : [
+            "I am a college student, are there scholarships available?",
             "I need financial help for college education",
             "What benefits are available for farmers?",
             "How to get Income Certificate?",
@@ -232,7 +244,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
           </div>
           <div>
             <h2 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-              Multi-Agent Benefit Assistant
+              {t.navAssistant}
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                 Deterministic Rule Engine Active
               </span>
@@ -249,7 +261,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
             className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-medium flex items-center gap-1 shadow-sm hover:bg-emerald-700 transition-colors"
           >
             <Mic className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Voice Mode</span>
+            <span className="hidden sm:inline">{t.speakBtn}</span>
           </button>
           <button
             onClick={() => setMessages([])}
@@ -498,7 +510,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                     rel="noreferrer"
                     className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center gap-1.5 shadow-sm transition-colors text-xs"
                   >
-                    <span>Proceed to Official Government Portal</span>
+                    <span>{t.proceedToOfficialPortal}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
 
@@ -506,7 +518,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                     to="/applications"
                     className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-colors"
                   >
-                    Track Manually on Dashboard
+                    {t.trackManuallyDashboard}
                   </Link>
                 </div>
               </div>

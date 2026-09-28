@@ -24,11 +24,13 @@ import { api } from '../services/api';
 import { Scheme, EligibilityResult, DocumentReadiness, MissingDocumentGuide } from '../types';
 import { EligibilityBadge } from '../components/EligibilityBadge';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const SchemeDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { isAuthenticated, profile } = useAuth();
+  const { t } = useLanguage();
 
   const [scheme, setScheme] = useState<Scheme | null>(null);
   const [eligibility, setEligibility] = useState<EligibilityResult | null>(null);

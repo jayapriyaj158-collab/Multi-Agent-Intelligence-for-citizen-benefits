@@ -13,9 +13,11 @@ import { api } from '../services/api';
 import { ApplicationItem, Scheme } from '../types';
 import { ApplicationTimeline } from '../components/ApplicationTimeline';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const ApplicationsPage: React.FC = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [applications, setApplications] = useState<ApplicationItem[]>([]);
   const [schemes, setSchemes] = useState<Scheme[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -77,10 +79,10 @@ export const ApplicationsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            Application Tracking Center
+            {t.appTrackingTitle}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            Manual demo tracking & status timeline for your submitted government benefits.
+            {t.appTrackingSubtitle}
           </p>
         </div>
 
@@ -89,16 +91,16 @@ export const ApplicationsPage: React.FC = () => {
           className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs flex items-center gap-1.5 shadow-sm transition-colors self-start sm:self-center"
         >
           <Plus className="w-4 h-4" />
-          <span>Add Application to Track</span>
+          <span>{t.addAppBtn}</span>
         </button>
       </div>
 
-      {/* Manual Demo Mode Disclaimer Banner (Requirement #18) */}
+      {/* Manual Demo Mode Disclaimer Banner */}
       <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 flex items-start gap-2.5">
         <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
         <div className="leading-relaxed">
           <strong className="block font-semibold">Manual Demo Tracking Mode Active:</strong>
-          Because real government department integrations require official API access keys, this tracking board allows you to log your official application number and simulate progress milestones (Submitted → Verified → Review → Approved).
+          {t.demoTrackingBanner}
         </div>
       </div>
 
@@ -112,7 +114,7 @@ export const ApplicationsPage: React.FC = () => {
         <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-3">
           <Layers className="w-12 h-12 text-slate-300 mx-auto" />
           <h3 className="font-bold text-sm text-slate-800 dark:text-slate-200">
-            No Applications Currently Tracked
+            {t.noApplicationsYet}
           </h3>
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
             Once you apply on an official government portal (e.g. scholarships.gov.in, pmkisan.gov.in), click 'Add Application to Track' to monitor it here.
@@ -121,7 +123,7 @@ export const ApplicationsPage: React.FC = () => {
             onClick={() => setShowAddModal(true)}
             className="px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-semibold"
           >
-            Track First Application
+            {t.addAppBtn}
           </button>
         </div>
       ) : (

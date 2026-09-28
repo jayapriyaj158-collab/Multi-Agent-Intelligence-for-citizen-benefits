@@ -79,7 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const loginAsDemoAdmin = async () => {
-    await login('admin@sih2026.gov.in', 'admin123');
+    await login('admin@citizenbenefits.gov.in', 'admin123');
   };
 
   const register = async (data: { email: string; password: string; full_name: string; phone?: string }) => {

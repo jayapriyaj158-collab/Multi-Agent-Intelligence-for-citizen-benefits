@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, AlertTriangle, XCircle, HelpCircle } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface EligibilityBadgeProps {
   status: 'LIKELY ELIGIBLE' | 'POTENTIALLY ELIGIBLE' | 'LIKELY NOT ELIGIBLE' | 'INSUFFICIENT INFORMATION' | string;
@@ -7,6 +8,7 @@ interface EligibilityBadgeProps {
 }
 
 export const EligibilityBadge: React.FC<EligibilityBadgeProps> = ({ status, size = 'md' }) => {
+  const { t } = useLanguage();
   const normalized = status.toUpperCase();
 
   let bgColor = 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300';
@@ -16,19 +18,19 @@ export const EligibilityBadge: React.FC<EligibilityBadgeProps> = ({ status, size
   if (normalized.includes('LIKELY ELIGIBLE') && !normalized.includes('NOT')) {
     bgColor = 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
     icon = <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />;
-    label = 'Likely Eligible';
+    label = t.likelyEligible;
   } else if (normalized.includes('POTENTIALLY')) {
     bgColor = 'bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800';
     icon = <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />;
-    label = 'Potentially Eligible';
+    label = t.potentiallyEligible;
   } else if (normalized.includes('NOT ELIGIBLE')) {
     bgColor = 'bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800';
     icon = <XCircle className="w-4 h-4 text-rose-600 dark:text-rose-400" />;
-    label = 'Likely Not Eligible';
+    label = t.likelyNotEligible;
   } else {
     bgColor = 'bg-sky-50 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800';
     icon = <HelpCircle className="w-4 h-4 text-sky-600 dark:text-sky-400" />;
-    label = 'Need Information';
+    label = t.insufficientInfo;
   }
 
   const sizeClasses = {

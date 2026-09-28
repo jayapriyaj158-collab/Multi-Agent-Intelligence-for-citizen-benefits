@@ -16,11 +16,13 @@ def seed_database():
 
     try:
         # 1. Seed Admin User
-        admin_user = db.query(User).filter(User.email == "admin@sih2026.gov.in").first()
+        admin_user = db.query(User).filter(User.email == "admin@citizenbenefits.gov.in").first()
+        if not admin_user:
+            admin_user = db.query(User).filter(User.email == "admin@sih2026.gov.in").first()
         if not admin_user:
             print("Seeding Admin User...")
             admin_user = User(
-                email="admin@sih2026.gov.in",
+                email="admin@citizenbenefits.gov.in",
                 full_name="National Welfare Admin Officer",
                 hashed_password=get_password_hash("admin123"),
                 role="admin",
@@ -29,6 +31,18 @@ def seed_database():
             db.add(admin_user)
             db.commit()
             db.refresh(admin_user)
+        # Also ensure admin@citizenbenefits.gov.in exists if admin@sih2026.gov.in existed
+        alt_admin = db.query(User).filter(User.email == "admin@citizenbenefits.gov.in").first()
+        if not alt_admin:
+            alt_admin = User(
+                email="admin@citizenbenefits.gov.in",
+                full_name="National Welfare Admin Officer",
+                hashed_password=get_password_hash("admin123"),
+                role="admin",
+                phone="9876543210"
+            )
+            db.add(alt_admin)
+            db.commit()
 
         # 2. Seed Demo Citizen User
         demo_citizen = db.query(User).filter(User.email == "citizen@example.com").first()

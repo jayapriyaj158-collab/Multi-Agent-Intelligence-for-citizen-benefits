@@ -24,10 +24,12 @@ import {
 import { api } from '../services/api';
 import { Scheme, ApplicationItem, DocumentItem, NotificationItem } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { SchemeCard } from '../components/SchemeCard';
 
 export const CitizenDashboard: React.FC = () => {
   const { user, profile } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [recommendedSchemes, setRecommendedSchemes] = useState<Scheme[]>([]);
@@ -84,13 +86,13 @@ export const CitizenDashboard: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white shadow-lg">
         <div className="space-y-1">
           <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-300">
-            Citizen Benefit Intelligence
+            {t.appName}
           </span>
           <h1 className="text-2xl sm:text-3xl font-bold">
-            Vanakkam, {user?.full_name || 'Citizen'}!
+            {t.vanakkam}, {user?.full_name || t.citizen}!
           </h1>
           <p className="text-xs text-indigo-200">
-            {profile?.occupation || 'Citizen'} • {profile?.state || 'All India'} • Income: {profile?.annual_income ? `₹${profile.annual_income.toLocaleString()}` : 'Not Specified'}
+            {profile?.occupation || t.citizen} • {profile?.state || 'All India'} • Income: {profile?.annual_income ? `₹${profile.annual_income.toLocaleString()}` : 'Not Specified'}
           </p>
         </div>
 
@@ -100,13 +102,13 @@ export const CitizenDashboard: React.FC = () => {
             className="px-4 py-2.5 rounded-xl bg-white text-indigo-900 font-semibold text-xs flex items-center gap-1.5 shadow-sm hover:bg-indigo-50 transition-colors"
           >
             <Bot className="w-4 h-4 text-indigo-600" />
-            <span>Ask AI Assistant</span>
+            <span>{t.navAssistant}</span>
           </Link>
           <Link
             to="/profile"
             className="px-4 py-2.5 rounded-xl bg-indigo-700/60 hover:bg-indigo-700 border border-indigo-500/40 text-white font-semibold text-xs transition-colors"
           >
-            Edit Profile
+            {t.updateProfileBtn}
           </Link>
         </div>
       </div>
@@ -284,10 +286,10 @@ export const CitizenDashboard: React.FC = () => {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-            Top Schemes Recommended For You
+            {t.recommendedSchemesTitle}
           </h2>
           <Link to="/explorer" className="text-xs font-semibold text-indigo-600 hover:underline flex items-center gap-1">
-            <span>View All Schemes</span>
+            <span>{t.exploreAllSchemes}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

@@ -15,9 +15,11 @@ import {
 import { api } from '../services/api';
 import { Profile } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const ProfilePage: React.FC = () => {
   const { user, profile, refreshProfile } = useAuth();
+  const { t } = useLanguage();
 
   const [formData, setFormData] = useState<Partial<Profile>>({});
   const [naturalText, setNaturalText] = useState<string>('');
@@ -92,10 +94,10 @@ export const ProfilePage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            Citizen Profile Intelligence
+            {t.profileHeading}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            One comprehensive profile used by the Deterministic Rule Engine to discover all eligible benefits.
+            {t.profileSubheading}
           </p>
         </div>
 
@@ -320,7 +322,7 @@ export const ProfilePage: React.FC = () => {
             className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs transition-colors shadow-sm flex items-center gap-1.5"
           >
             <Save className="w-4 h-4" />
-            <span>{saving ? "Saving Changes..." : "Save Citizen Profile"}</span>
+            <span>{saving ? t.saving : t.saveProfile}</span>
           </button>
         </div>
       </form>

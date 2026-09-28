@@ -46,9 +46,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVoice }) => {
               <div>
                 <span className="font-bold text-lg text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5">
                   Citizen Benefit <span className="text-indigo-600 dark:text-indigo-400">Intelligence</span>
-                  <span className="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-orange-100 text-orange-800 dark:bg-orange-950/60 dark:text-orange-300 border border-orange-200 dark:border-orange-800">
-                    SIH 2026
-                  </span>
                 </span>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">
                   AI-Powered Ecosystem Layer for Indian Welfare
@@ -59,26 +56,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVoice }) => {
 
           {/* Desktop Nav Links */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-            <Link 
-              to="/explorer" 
-              className="px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
-            >
-              {t.navExplorer}
-            </Link>
-            <Link 
-              to="/assistant" 
-              className="px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex items-center gap-1.5"
-            >
-              <Sparkles className="w-4 h-4 text-indigo-500" />
-              {t.navAssistant}
-            </Link>
-            {isAuthenticated && (
+            {isAuthenticated ? (
               <>
                 <Link 
                   to="/dashboard" 
                   className="px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
                 >
                   {t.navDashboard}
+                </Link>
+                <Link 
+                  to="/explorer" 
+                  className="px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+                >
+                  {t.navExplorer}
+                </Link>
+                <Link 
+                  to="/assistant" 
+                  className="px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex items-center gap-1.5"
+                >
+                  <Sparkles className="w-4 h-4 text-indigo-500" />
+                  {t.navAssistant}
                 </Link>
                 <Link 
                   to="/documents" 
@@ -99,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVoice }) => {
                   {t.navBenefitGap}
                 </Link>
               </>
-            )}
+            ) : null}
             {isAdmin && (
               <Link 
                 to="/admin" 
@@ -151,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVoice }) => {
               </select>
             </div>
 
-            {/* User Account / 1-Click Login */}
+            {/* User Account / Sign In */}
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <Link
@@ -159,11 +156,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVoice }) => {
                   className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300"
                 >
                   <UserIcon className="w-3.5 h-3.5 text-indigo-600" />
-                  <span className="hidden sm:inline max-w-[100px] truncate">{user?.full_name.split(' ')[0]}</span>
+                  <span className="hidden sm:inline max-w-[100px] truncate">{user?.full_name?.split(' ')[0] || t.citizen}</span>
                 </Link>
                 <button
                   onClick={logout}
-                  title="Sign Out"
+                  title={t.logoutBtn}
                   className="p-2 text-slate-500 hover:text-rose-600 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
@@ -171,20 +168,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVoice }) => {
               </div>
             ) : (
               <div className="flex items-center gap-1.5">
-                <button
-                  onClick={loginAsDemoCitizen}
-                  title="Demo Citizen Login"
-                  className="px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium transition-colors shadow-sm"
+                <Link
+                  to="/login"
+                  className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-colors shadow-xs"
                 >
-                  Demo Citizen
-                </button>
-                <button
-                  onClick={loginAsDemoAdmin}
-                  title="Demo Admin Login"
-                  className="hidden sm:block px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium transition-colors"
+                  {t.loginBtn}
+                </Link>
+                <Link
+                  to="/register"
+                  className="hidden sm:inline-block px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium transition-colors"
                 >
-                  Admin
-                </button>
+                  {t.registerBtn}
+                </Link>
               </div>
             )}
 
@@ -201,49 +196,73 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVoice }) => {
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden py-3 border-t border-slate-200 dark:border-slate-800 space-y-1">
-            <Link
-              to="/explorer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-100"
-            >
-              {t.navExplorer}
-            </Link>
-            <Link
-              to="/assistant"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-sm font-medium text-indigo-600 rounded-md hover:bg-indigo-50"
-            >
-              {t.navAssistant}
-            </Link>
-            {isAuthenticated && (
+            {isAuthenticated ? (
               <>
                 <Link
                   to="/dashboard"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700 rounded-md hover:bg-slate-100"
+                  className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   {t.navDashboard}
                 </Link>
                 <Link
+                  to="/explorer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  {t.navExplorer}
+                </Link>
+                <Link
+                  to="/assistant"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-950/40"
+                >
+                  {t.navAssistant}
+                </Link>
+                <Link
                   to="/documents"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700 rounded-md hover:bg-slate-100"
+                  className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   {t.navDocuments}
                 </Link>
                 <Link
                   to="/applications"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700 rounded-md hover:bg-slate-100"
+                  className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   {t.navApplications}
                 </Link>
                 <Link
                   to="/benefit-gap"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700 rounded-md hover:bg-slate-100"
+                  className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   {t.navBenefitGap}
+                </Link>
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  {t.navProfile}
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-950/40"
+                >
+                  {t.loginBtn}
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  {t.registerBtn}
                 </Link>
               </>
             )}
@@ -251,7 +270,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVoice }) => {
               <Link
                 to="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm font-medium text-purple-700 rounded-md hover:bg-purple-50"
+                className="block px-3 py-2 text-sm font-medium text-purple-700 dark:text-purple-300 rounded-md hover:bg-purple-50 dark:hover:bg-purple-950/40"
               >
                 {t.navAdmin}
               </Link>

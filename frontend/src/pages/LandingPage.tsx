@@ -43,7 +43,7 @@ export const LandingPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-xs font-semibold text-indigo-700 dark:text-indigo-300 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-pulse" />
-            <span>SIH 2026 Innovation: Multi-Agent AI + RAG + Explainable Eligibility</span>
+            <span>Autonomous Multi-Agent AI + RAG + Explainable Eligibility</span>
           </div>
 
           {/* Main Title & USP */}
@@ -200,7 +200,7 @@ export const LandingPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice
                 Live Interactive Scenario
               </span>
               <h3 className="text-xl sm:text-2xl font-bold mt-1">
-                SIH 2026 Benchmark Test Case
+                Citizen Interaction Benchmark Scenario
               </h3>
             </div>
             <button

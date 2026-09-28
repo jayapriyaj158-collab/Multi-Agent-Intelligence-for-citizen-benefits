@@ -12,7 +12,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    description="Multi-Agent Intelligence for Citizen Benefits — SIH 2026 AI Prototype",
+    description="Multi-Agent Intelligence for Citizen Benefits — Autonomous AI Platform",
     version="1.0.0",
     docs_url=f"{settings.API_V1_STR}/docs",
     redoc_url=f"{settings.API_V1_STR}/redoc",

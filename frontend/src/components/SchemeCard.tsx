@@ -19,6 +19,7 @@ import { Scheme } from '../types';
 import { EligibilityBadge } from './EligibilityBadge';
 import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface SchemeCardProps {
   scheme: Scheme;
@@ -45,6 +46,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
 }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const { t } = useLanguage();
   const [savedState, setSavedState] = useState(isSaved);
   const [saveLoading, setSaveLoading] = useState(false);
 
@@ -137,7 +139,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         {rankingReason && (
           <div className="mt-2 text-[11px] text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-md border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-            <span className="truncate">Why this ranks: {rankingReason}</span>
+            <span className="truncate">{t.whyRanks}: {rankingReason}</span>
           </div>
         )}
 
@@ -149,7 +151,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         {/* Benefits Highlight Box */}
         <div className="mt-3 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 text-xs">
           <span className="font-semibold text-slate-700 dark:text-slate-300 block mb-0.5">
-            Key Benefit:
+            {t.keyBenefit}:
           </span>
           <span className="text-slate-900 dark:text-slate-200 font-medium line-clamp-2">
             {scheme.benefits}
@@ -164,7 +166,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
 
           {/* AI Match Score with Disclaimer Tooltip */}
           <div className="relative group/tooltip flex items-center gap-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-800 cursor-help">
-            <span>{matchScore}% Profile Match</span>
+            <span>{matchScore}% {t.matchScore}</span>
             <AlertCircle className="w-3 h-3 text-indigo-400" />
             <div className="absolute bottom-full right-0 mb-1 hidden group-hover/tooltip:block w-48 p-2 rounded bg-slate-900 text-white text-[10px] leading-tight shadow-xl z-20">
               AI-assisted profile similarity indicator, not an official government eligibility score.
@@ -177,10 +179,10 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
           <div className="flex items-center justify-between text-[11px] text-slate-500 mb-1">
             <span className="flex items-center gap-1 font-medium">
               <FileCheck2 className="w-3.5 h-3.5 text-slate-400" />
-              Document Readiness:
+              {t.readiness}:
             </span>
             <span className="font-semibold text-slate-700 dark:text-slate-300">
-              {readinessPercentage}% Ready
+              {readinessPercentage}% {t.ready}
             </span>
           </div>
           <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
@@ -197,11 +199,11 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         <div className="flex items-center justify-between text-[11px] text-slate-400">
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            {scheme.deadline || "Open Year-Round"}
+            {scheme.deadline || t.openYearRound}
           </span>
           <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
             <ShieldCheck className="w-3 h-3" />
-            {scheme.verification_status === "VERIFIED" ? "Verified Data" : "Demo Data"}
+            {scheme.verification_status === "VERIFIED" ? t.verifiedData : t.demoData}
           </span>
         </div>
 
@@ -211,13 +213,13 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
             to={`/schemes/${scheme.scheme_id}`}
             className="w-full py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 text-center transition-colors"
           >
-            View Details
+            {t.viewDetails}
           </Link>
           <Link
             to={`/assistant?scheme=${scheme.scheme_id}&action=apply`}
             className="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold text-center transition-colors shadow-sm flex items-center justify-center gap-1"
           >
-            <span>Help Me Apply</span>
+            <span>{t.helpMeApply}</span>
             <ArrowRight className="w-3 h-3" />
           </Link>
         </div>

@@ -16,8 +16,10 @@ import {
 import { api } from '../services/api';
 import { DocumentItem, Scheme, DocumentReadiness, MissingDocumentGuide } from '../types';
 import { DocumentCard } from '../components/DocumentCard';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const DocumentCenterPage: React.FC = () => {
+  const { t } = useLanguage();
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [schemes, setSchemes] = useState<Scheme[]>([]);
   const [selectedSchemeId, setSelectedSchemeId] = useState<string>('');
@@ -107,14 +109,14 @@ export const DocumentCenterPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            Document Intelligence Center
+            {t.docCenterTitle}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            Automated OCR classification, consistency validation, and missing certificate acquisition guidance.
+            {t.docCenterSubtitle}
           </p>
         </div>
 
-        {/* DigiLocker Notice (Requirement #42) */}
+        {/* DigiLocker Notice */}
         <div className="p-3 rounded-2xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-xs text-blue-900 dark:text-blue-200 flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
           <span>DigiLocker Integration Ready (Production integration available in API mode)</span>
@@ -128,21 +130,21 @@ export const DocumentCenterPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <Upload className="w-5 h-5 text-indigo-600" />
             <h3 className="font-bold text-sm text-slate-900 dark:text-white">
-              Upload Document for Intelligence OCR Analysis
+              {t.uploadCertificate}
             </h3>
           </div>
 
           {uploadSuccess && (
             <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 text-xs text-emerald-800 flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-              <span>Document uploaded and verified via OCR extraction!</span>
+              <span>{t.uploadSuccess}</span>
             </div>
           )}
 
           <form onSubmit={handleUploadSubmit} className="space-y-4 text-xs">
             <div>
               <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                Document Certificate Type
+                {t.selectDocType}
               </label>
               <select
                 value={selectedDocType}
@@ -161,7 +163,7 @@ export const DocumentCenterPage: React.FC = () => {
 
             <div>
               <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                Select File (PDF, JPG, PNG)
+                {t.chooseFile}
               </label>
               <input
                 type="file"
@@ -177,7 +179,7 @@ export const DocumentCenterPage: React.FC = () => {
               className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center justify-center gap-1.5 shadow-sm"
             >
               <Sparkles className="w-4 h-4" />
-              <span>{uploading ? "Analyzing Document with OCR..." : "Upload & Analyze Document"}</span>
+              <span>{uploading ? t.uploading : t.uploadBtn}</span>
             </button>
           </form>
         </div>

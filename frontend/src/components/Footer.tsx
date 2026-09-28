@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, ExternalLink, CheckCircle, Info, Heart } from 'lucide-react';
+import { ExternalLink, CheckCircle } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const Footer: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 text-sm py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -15,25 +18,25 @@ export const Footer: React.FC = () => {
                 CB
               </div>
               <span className="font-bold text-slate-900 dark:text-white">
-                Citizen Benefit Intelligence
+                {t.appName}
               </span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed">
-              SIH 2026 Prototype — Multi-Agent AI system providing explainable eligibility, document intelligence, and multilingual voice assistance for Indian citizens.
+              {t.footerAbout}
             </p>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-xs font-medium border border-emerald-200 dark:border-emerald-800">
               <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
-              Demo Mode Configured
+              {t.demoDisclaimer}
             </div>
           </div>
 
           {/* Col 2: Digital Ecosystem Layer */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-              Official Indian Ecosystem
+              {t.officialEcosystem}
             </h4>
             <p className="text-xs text-slate-500">
-              Designed as an intelligent assistance layer above official portals:
+              {t.ecosystemSubtitle}
             </p>
             <ul className="space-y-1.5 text-xs">
               <li>
@@ -62,36 +65,36 @@ export const Footer: React.FC = () => {
           {/* Col 3: Citizen Navigation */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-              Quick Links
+              {t.quickLinks}
             </h4>
             <ul className="space-y-1.5 text-xs">
-              <li><Link to="/explorer" className="hover:text-indigo-600">Scheme Explorer</Link></li>
-              <li><Link to="/assistant" className="hover:text-indigo-600">AI Benefit Assistant</Link></li>
-              <li><Link to="/documents" className="hover:text-indigo-600">Document Intelligence Center</Link></li>
-              <li><Link to="/benefit-gap" className="hover:text-indigo-600">Benefit Gap Analyzer</Link></li>
-              <li><Link to="/support" className="hover:text-indigo-600">Human Escalation & Grievances</Link></li>
-              <li><Link to="/about" className="hover:text-indigo-600">About Architecture</Link></li>
+              <li><Link to="/explorer" className="hover:text-indigo-600">{t.navExplorer}</Link></li>
+              <li><Link to="/assistant" className="hover:text-indigo-600">{t.navAssistant}</Link></li>
+              <li><Link to="/documents" className="hover:text-indigo-600">{t.navDocuments}</Link></li>
+              <li><Link to="/benefit-gap" className="hover:text-indigo-600">{t.navBenefitGap}</Link></li>
+              <li><Link to="/support" className="hover:text-indigo-600">{t.navSupport}</Link></li>
+              <li><Link to="/about" className="hover:text-indigo-600">{t.appName}</Link></li>
             </ul>
           </div>
 
           {/* Col 4: Real-World Policy Disclaimer */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-              Important Disclaimer
+              {t.disclaimerTitle}
             </h4>
             <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-900 dark:text-amber-200 leading-relaxed">
               <span className="font-semibold block mb-1">Non-Government Entity Notice:</span>
-              This prototype acts as an advisory search, rule evaluation, and application navigation assistant. It does not issue official approvals, collect application fees, or replace official departmental scrutiny.
+              {t.disclaimerText}
             </div>
           </div>
         </div>
 
         {/* Bottom Banner */}
         <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© 2026 Citizen Benefit Intelligence. Multi-Agent AI Prototype for SIH 2026.</p>
+          <p>{t.copyright}</p>
           <div className="flex items-center gap-4">
             <span className="text-slate-400">Languages: English • தமிழ் • हिन्दी</span>
-            <Link to="/admin" className="text-slate-400 hover:text-purple-600 text-[11px]">Admin Control Center</Link>
+            <Link to="/admin" className="text-slate-400 hover:text-purple-600 text-[11px]">{t.adminControlCenter}</Link>
           </div>
         </div>
       </div>
