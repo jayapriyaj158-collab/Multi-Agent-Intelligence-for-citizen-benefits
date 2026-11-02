@@ -107,7 +107,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="text-2xl font-black text-indigo-600">
             {analytics?.total_applications || 1}
           </div>
-          <span className="text-[10px] text-slate-400">Tracked Applications</span>
+          <span className="text-[10px] text-slate-400">Manual Tracked</span>
         </div>
 
         <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1">

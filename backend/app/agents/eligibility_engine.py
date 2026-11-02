@@ -96,7 +96,7 @@ class EligibilityEngine:
             "missing_criteria_fields": list(set(missing_fields)),
             "summary_explanation": summary_explanation,
             "profile_match_score": profile_match_score,
-            "disclaimer": "This score is an AI-assisted profile similarity indicator and is not an official government eligibility score. Final eligibility rests exclusively with the respective government authority."
+            "disclaimer": "This is an AI-assisted assessment based on the information provided. Final eligibility is determined by the concerned government authority."
         }
 
     def _evaluate_condition(self, user_val: Any, op: str, expected_val: Any) -> bool:

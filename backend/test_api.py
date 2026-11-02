@@ -1,4 +1,4 @@
-"""Comprehensive Automated Integration Test for Multi-Agent Citizen Benefits Platform.
+"""Comprehensive Automated Integration Test for SIH 2026 Multi-Agent Platform.
 Verifies health, auth, schemes, eligibility rules, document intelligence,
 and multi-agent natural language chat in English and regional languages.
 """
@@ -13,7 +13,7 @@ BASE_URL = "http://127.0.0.1:8001"
 
 def run_tests():
     print("=" * 70)
-    print("[*] CITIZEN BENEFIT INTELLIGENCE PLATFORM - VERIFICATION SUITE")
+    print("[*] SIH 2026 MULTI-AGENT CITIZEN BENEFITS PLATFORM - VERIFICATION SUITE")
     print("=" * 70)
     
     passed = 0
@@ -151,7 +151,7 @@ def run_tests():
     # 12. Admin Authentication & AI Audit Runs
     print("\n[12] Testing Admin Access & Explainability Audit Logs...")
     try:
-        r_admin = requests.post(f"{BASE_URL}/api/auth/login", json={"email": "admin@citizenbenefits.gov.in", "password": "admin123"}, timeout=5)
+        r_admin = requests.post(f"{BASE_URL}/api/auth/login", json={"email": "admin@sih2026.gov.in", "password": "admin123"}, timeout=5)
         admin_token = r_admin.json().get("access_token")
         admin_headers = {"Authorization": f"Bearer {admin_token}"}
         r_audit = requests.get(f"{BASE_URL}/api/admin/audit-logs", headers=admin_headers, timeout=5)

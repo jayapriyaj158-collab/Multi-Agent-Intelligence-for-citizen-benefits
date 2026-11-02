@@ -15,22 +15,24 @@ def seed_database():
     db = SessionLocal()
 
     try:
-        # 1. Seed Admin User
-        admin_user = db.query(User).filter(User.email == "admin@citizenbenefits.gov.in").first()
-        if not admin_user:
-            print("Seeding Admin User...")
-            admin_user = User(
-                email="admin@citizenbenefits.gov.in",
-                full_name="National Welfare Admin Officer",
-                hashed_password=get_password_hash("admin123"),
-                role="admin",
-                phone="9876543210"
-            )
-            db.add(admin_user)
+        # 1. Seed Admin Users
+        for admin_email in ["admin@citizenbenefits.gov.in", "admin@sih2026.gov.in", "admin@cbi.gov.in"]:
+            admin_user = db.query(User).filter(User.email == admin_email).first()
+            if not admin_user:
+                print(f"Seeding Admin User ({admin_email})...")
+                admin_user = User(
+                    email=admin_email,
+                    full_name="National Welfare Admin Officer",
+                    hashed_password=get_password_hash("admin123"),
+                    role="admin",
+                    phone="9876543210"
+                )
+                db.add(admin_user)
+            else:
+                admin_user.hashed_password = get_password_hash("admin123")
             db.commit()
-            db.refresh(admin_user)
 
-        # 2. Seed Demo Citizen User
+        # 2. Seed Demo Citizen User (Karthik Subramanian)
         demo_citizen = db.query(User).filter(User.email == "citizen@example.com").first()
         if not demo_citizen:
             print("Seeding Demo Citizen User...")
@@ -44,9 +46,14 @@ def seed_database():
             db.add(demo_citizen)
             db.commit()
             db.refresh(demo_citizen)
+        else:
+            demo_citizen.hashed_password = get_password_hash("citizen123")
+            db.commit()
 
-            # Profile for Karthik (College Student, Tamil Nadu, ₹2 Lakh income)
-            citizen_profile = Profile(
+        # Check demo citizen profile
+        demo_profile = db.query(Profile).filter(Profile.user_id == demo_citizen.id).first()
+        if not demo_profile:
+            demo_profile = Profile(
                 user_id=demo_citizen.id,
                 age=19,
                 gender="Male",
@@ -64,10 +71,12 @@ def seed_database():
                 preferred_language="ta",
                 completion_percentage=85
             )
-            db.add(citizen_profile)
+            db.add(demo_profile)
             db.commit()
 
-            # Seed a sample uploaded document for demo citizen
+        # Seed sample document for demo citizen if none exists
+        demo_doc = db.query(Document).filter(Document.user_id == demo_citizen.id).first()
+        if not demo_doc:
             sample_doc = Document(
                 user_id=demo_citizen.id,
                 document_type="Aadhaar Card",
@@ -93,6 +102,48 @@ def seed_database():
                 is_consistent="VALID"
             )
             db.add(doc_ana)
+            db.commit()
+
+        # 2b. Seed/Update Tested Citizen Account (jayapriyaa24am@srishakthi.ac.in)
+        tested_citizen = db.query(User).filter(User.email == "jayapriyaa24am@srishakthi.ac.in").first()
+        if not tested_citizen:
+            print("Seeding Tested Citizen User (Jayapriyaa)...")
+            tested_citizen = User(
+                email="jayapriyaa24am@srishakthi.ac.in",
+                full_name="Jayapriyaa",
+                hashed_password=get_password_hash("citizen123"),
+                role="citizen",
+                phone="9840123457"
+            )
+            db.add(tested_citizen)
+            db.commit()
+            db.refresh(tested_citizen)
+        else:
+            tested_citizen.hashed_password = get_password_hash("citizen123")
+            tested_citizen.full_name = "Jayapriyaa"
+            db.commit()
+
+        jp_profile = db.query(Profile).filter(Profile.user_id == tested_citizen.id).first()
+        if not jp_profile:
+            jp_profile = Profile(
+                user_id=tested_citizen.id,
+                age=20,
+                gender="Female",
+                state="Tamil Nadu",
+                district="Coimbatore",
+                occupation="Student",
+                education="Undergraduate",
+                annual_income=200000.0,
+                social_category="OBC",
+                disability_status=False,
+                marital_status="Single",
+                residence_type="Urban",
+                family_members_count=4,
+                is_bpl=False,
+                preferred_language="ta",
+                completion_percentage=100
+            )
+            db.add(jp_profile)
             db.commit()
 
         # 3. Seed Schemes

@@ -29,8 +29,18 @@ async def upload_document(
     current_user: User = Depends(require_current_user),
     db: Session = Depends(get_db)
 ):
-    # Save file locally
-    safe_filename = f"user_{current_user.id}_{int(os.times().elapsed)}_{file.filename}"
+    import datetime
+    ext = os.path.splitext(file.filename or "")[1].lower()
+    allowed_exts = [".pdf", ".jpg", ".jpeg", ".png"]
+    if ext not in allowed_exts:
+        raise HTTPException(
+            status_code=400,
+            detail="Unsupported file format. Please upload PDF, JPG, or PNG."
+        )
+
+    # Save file locally with collision-free timestamp
+    ts = int(datetime.datetime.utcnow().timestamp())
+    safe_filename = f"user_{current_user.id}_{ts}_{file.filename}"
     file_path = os.path.join(UPLOAD_DIR, safe_filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)

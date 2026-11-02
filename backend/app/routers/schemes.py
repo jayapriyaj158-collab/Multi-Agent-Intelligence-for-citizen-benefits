@@ -87,7 +87,31 @@ def list_schemes(
     q = db.query(Scheme).filter(Scheme.verification_status != "ARCHIVED")
 
     if category and category != "All":
-        q = q.filter(Scheme.category == category)
+        cat_lower = category.lower()
+        if "women" in cat_lower or "child" in cat_lower:
+            q = q.filter((Scheme.category == "Social Security") | (Scheme.gender_criteria == "Female") | (Scheme.sub_category.ilike("%women%")) | (Scheme.target_group.ilike("%women%")))
+        elif "skill" in cat_lower:
+            q = q.filter((Scheme.scheme_name.ilike("%skill%")) | (Scheme.description.ilike("%skill%")) | (Scheme.category == "Education") | (Scheme.category == "Employment"))
+        elif "student" in cat_lower:
+            q = q.filter((Scheme.category == "Education") | (Scheme.target_group.ilike("%student%")))
+        elif "financial" in cat_lower:
+            q = q.filter((Scheme.category == "Employment") | (Scheme.category == "Agriculture") | (Scheme.benefit_type.ilike("%loan%")) | (Scheme.benefit_type.ilike("%transfer%")))
+        elif "disability" in cat_lower:
+            q = q.filter((Scheme.target_group.ilike("%disability%")) | (Scheme.target_group.ilike("%pwd%")) | (Scheme.description.ilike("%disability%")) | (Scheme.category == "Social Security"))
+        elif "education" in cat_lower:
+            q = q.filter((Scheme.category == "Education") | (Scheme.category.ilike("%education%")))
+        elif "agriculture" in cat_lower:
+            q = q.filter((Scheme.category == "Agriculture") | (Scheme.category.ilike("%agri%")))
+        elif "health" in cat_lower:
+            q = q.filter((Scheme.category == "Health") | (Scheme.category.ilike("%health%")))
+        elif "housing" in cat_lower:
+            q = q.filter((Scheme.category == "Housing") | (Scheme.category.ilike("%housing%")))
+        elif "employment" in cat_lower:
+            q = q.filter((Scheme.category == "Employment") | (Scheme.category.ilike("%employ%")))
+        elif "social" in cat_lower:
+            q = q.filter((Scheme.category == "Social Security") | (Scheme.category.ilike("%social%")))
+        else:
+            q = q.filter(Scheme.category.ilike(f"%{category}%"))
     if state and state != "All India":
         q = q.filter((Scheme.state == state) | (Scheme.state == "All India"))
     if gender and gender != "All":

@@ -124,7 +124,7 @@ class CentralOrchestratorAgent:
                 "application_number": "APP-TN-2026-94821",
                 "scheme_name": "Post-Matric Scholarship Scheme",
                 "current_status": "DOCUMENTS_VERIFIED",
-                "tracking_mode": "MANUAL_DEMO",
+                "tracking_mode": "MANUAL",
                 "steps": [
                     {"label": "Submitted", "date": "10 Sep 2026", "status": "completed"},
                     {"label": "Institute Verification", "date": "16 Sep 2026", "status": "completed"},

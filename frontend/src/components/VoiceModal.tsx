@@ -12,14 +12,15 @@ interface VoiceModalProps {
 }
 
 export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQueryComplete }) => {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
 
   const [isListening, setIsListening] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [transcript, setTranscript] = useState<string>('');
   const [responseReply, setResponseReply] = useState<string>('');
-  const [statusMsg, setStatusMsg] = useState<string>('Tap microphone and speak in your language');
+  const defaultStatusMsg = language === 'ta' ? 'மைக்ரோஃபோனைத் தொட்டு உங்கள் மொழியில் பேசவும்' : language === 'hi' ? 'माइक्रोफ़ोन दबाएं और अपनी भाषा में बोलें' : 'Tap microphone and speak in your language';
+  const [statusMsg, setStatusMsg] = useState<string>(defaultStatusMsg);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -30,9 +31,9 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
       setIsSpeaking(false);
       setTranscript('');
       setResponseReply('');
-      setStatusMsg('Tap microphone and speak in your language');
+      setStatusMsg(defaultStatusMsg);
     }
-  }, [isOpen]);
+  }, [isOpen, language]);
 
   if (!isOpen) return null;
 
@@ -52,7 +53,7 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
       },
       (err: string) => {
         setIsListening(false);
-        setStatusMsg(`Voice notice: ${err}. You can also pick a demo prompt below.`);
+        setStatusMsg(`Voice notice: ${err}. You can also pick a sample prompt below.`);
       },
       () => {
         setIsListening(false);
@@ -126,10 +127,10 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
             </div>
             <div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white">
-                Voice-First Assistant
+                {t.voiceMode}
               </h3>
               <p className="text-xs text-slate-500">
-                Speak in Tamil, Hindi, or English (Web Speech STT + TTS)
+                {language === 'ta' ? 'தமிழ், இந்தி அல்லது ஆங்கிலத்தில் பேசலாம்' : language === 'hi' ? 'हिंदी, तमिल या अंग्रेजी में बोलें' : 'Speak in Tamil, Hindi, or English'}
               </p>
             </div>
           </div>
@@ -157,7 +158,7 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
               language === 'ta' ? 'bg-white dark:bg-slate-700 shadow text-slate-900 dark:text-white' : 'text-slate-500'
             }`}
           >
-            தமிழ் (Tamil)
+            தமிழ்
           </button>
           <button
             onClick={() => setLanguage('hi')}
@@ -165,7 +166,7 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
               language === 'hi' ? 'bg-white dark:bg-slate-700 shadow text-slate-900 dark:text-white' : 'text-slate-500'
             }`}
           >
-            हिन्दी (Hindi)
+            हिन्दी
           </button>
         </div>
 
@@ -215,7 +216,7 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
         {transcript && (
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-1">
             <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-              You Spoke:
+              {language === 'ta' ? 'நீங்கள் பேசியது:' : language === 'hi' ? 'आपने कहा:' : 'You Spoke:'}
             </span>
             <p className="text-sm font-medium text-slate-800 dark:text-slate-100">
               "{transcript}"
@@ -228,14 +229,14 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
           <div className="p-4 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
-                <Sparkles className="w-3 h-3" /> AI Assistant Response:
+                <Sparkles className="w-3 h-3" /> {language === 'ta' ? 'AI உதவியாளர் பதில்:' : language === 'hi' ? 'एआई सहायक उत्तर:' : 'AI Assistant Response:'}
               </span>
               {isSpeaking ? (
                 <button
                   onClick={handleStopSpeaking}
                   className="inline-flex items-center gap-1 text-[11px] text-rose-600 font-medium px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950/60"
                 >
-                  <VolumeX className="w-3 h-3" /> Stop Audio
+                  <VolumeX className="w-3 h-3" /> {t.stopVoice}
                 </button>
               ) : (
                 <button
@@ -245,7 +246,7 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
                   }}
                   className="inline-flex items-center gap-1 text-[11px] text-indigo-600 font-medium px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900/60"
                 >
-                  <Volume2 className="w-3 h-3" /> Replay Voice
+                  <Volume2 className="w-3 h-3" /> {t.speakAloud}
                 </button>
               )}
             </div>
@@ -255,10 +256,10 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({ isOpen, onClose, onQuery
           </div>
         )}
 
-        {/* One-Click Demo Voice Scenarios (Requirements #55 & #56) */}
+        {/* One-Click Sample Voice Scenarios */}
         <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800">
           <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-            Quick 1-Click Voice Test Scenarios:
+            {language === 'ta' ? 'விரைவு குரல் மாதிரி உரையாடல்கள்:' : language === 'hi' ? 'त्वरित आवाज परीक्षण परिदृश्य:' : 'Quick 1-Click Voice Test Scenarios:'}
           </span>
           <div className="grid grid-cols-1 gap-1.5 text-xs">
             <button

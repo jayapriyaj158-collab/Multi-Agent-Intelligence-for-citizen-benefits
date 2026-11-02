@@ -19,7 +19,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 export const ProfilePage: React.FC = () => {
   const { user, profile, refreshProfile } = useAuth();
-  const { t } = useLanguage();
+  const { t, language, translateCategory, translateState, translateOccupation } = useLanguage();
 
   const [formData, setFormData] = useState<Partial<Profile>>({});
   const [naturalText, setNaturalText] = useState<string>('');
@@ -94,17 +94,19 @@ export const ProfilePage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            {t.profileHeading}
+            {t.profileTitle}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            {t.profileSubheading}
+            {t.profileSubtitle}
           </p>
         </div>
 
         {/* Profile Completion Bar */}
         <div className="p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm min-w-[200px] space-y-1.5">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-slate-700 dark:text-slate-300">Completion:</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-300">
+              {language === 'ta' ? 'முழுமை நிலை:' : language === 'hi' ? 'पूर्णता स्थिति:' : 'Completion:'}
+            </span>
             <span className="font-bold text-indigo-600 dark:text-indigo-400">{completion}%</span>
           </div>
           <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
@@ -121,18 +123,18 @@ export const ProfilePage: React.FC = () => {
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-indigo-600" />
           <h3 className="font-bold text-sm text-slate-900 dark:text-white">
-            Smart AI Profile Extractor
+            {language === 'ta' ? 'AI சுயவிவர பிரித்தெடுத்தல்' : language === 'hi' ? 'एआई प्रोफ़ाइल निष्कर्षण' : 'Smart AI Profile Extractor'}
           </h3>
         </div>
         <p className="text-xs text-slate-600 dark:text-slate-300">
-          Type or paste about yourself naturally. The Citizen Profile Agent will extract age, state, education, and income automatically:
+          {language === 'ta' ? 'உங்களைப் பற்றி சாதாரணமாக தட்டச்சு செய்யவும். AI உங்கள் வயது, மாநிலம், படிப்பு மற்றும் வருமானத்தை தானாக கண்டறியும்:' : language === 'hi' ? 'अपने बारे में सामान्य रूप से लिखें। एआई आपकी आयु, राज्य, शिक्षा और आय को स्वतः पहचान लेगा:' : 'Type or paste about yourself naturally. The Citizen Profile Agent will extract age, state, education, and income automatically:'}
         </p>
         <div className="flex gap-2">
           <input
             type="text"
             value={naturalText}
             onChange={(e) => setNaturalText(e.target.value)}
-            placeholder="e.g. 'I am a 19-year-old college student from Tamil Nadu and family income is ₹2 lakh'..."
+            placeholder={language === 'ta' ? "எ.கா. 'நான் தமிழ்நாட்டைச் சேர்ந்த 19 வயது கல்லூரி மாணவர், குடும்ப வருமானம் ₹2 லட்சம்'..." : language === 'hi' ? "उदा. 'मैं तमिलनाडु का 19 वर्षीय कॉलेज छात्र हूँ और पारिवारिक आय ₹2 लाख है'..." : "e.g. 'I am a 19-year-old college student from Tamil Nadu and family income is ₹2 lakh'..."}
             className="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
           <button
@@ -141,7 +143,7 @@ export const ProfilePage: React.FC = () => {
             disabled={extracting || !naturalText.trim()}
             className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shrink-0 shadow-sm"
           >
-            {extracting ? "Extracting..." : "Auto-Fill"}
+            {extracting ? (language === 'ta' ? 'பிரித்தெடுக்கிறது...' : language === 'hi' ? 'निकाला जा रहा है...' : 'Extracting...') : (language === 'ta' ? 'தானியங்கு நிரப்பல்' : language === 'hi' ? 'स्वतः भरें' : 'Auto-Fill')}
           </button>
         </div>
       </div>
@@ -151,7 +153,7 @@ export const ProfilePage: React.FC = () => {
         {saveSuccess && (
           <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            <span>Profile successfully updated! Scheme recommendations have been refreshed.</span>
+            <span>{t.profileSavedSuccess}</span>
           </div>
         )}
 
@@ -159,7 +161,7 @@ export const ProfilePage: React.FC = () => {
           {/* Age */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              Age (Years)
+              {t.ageLabel}
             </label>
             <input
               type="number"
@@ -174,83 +176,83 @@ export const ProfilePage: React.FC = () => {
           {/* Gender */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              Gender
+              {t.genderLabel}
             </label>
             <select
               value={formData.gender || 'Male'}
               onChange={(e) => handleFieldChange('gender', e.target.value)}
               className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white"
             >
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option value="Male">{language === 'ta' ? 'ஆண்' : language === 'hi' ? 'पुरुष' : 'Male'}</option>
+              <option value="Female">{language === 'ta' ? 'பெண்' : language === 'hi' ? 'महिला' : 'Female'}</option>
+              <option value="Other">{language === 'ta' ? 'மற்றவை' : language === 'hi' ? 'अन्य' : 'Other'}</option>
             </select>
           </div>
 
           {/* State */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              State / Union Territory
+              {t.stateLabel}
             </label>
             <select
               value={formData.state || 'Tamil Nadu'}
               onChange={(e) => handleFieldChange('state', e.target.value)}
               className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white"
             >
-              <option value="Tamil Nadu">Tamil Nadu</option>
-              <option value="Uttar Pradesh">Uttar Pradesh</option>
-              <option value="Karnataka">Karnataka</option>
-              <option value="Maharashtra">Maharashtra</option>
-              <option value="Kerala">Kerala</option>
-              <option value="Delhi">Delhi</option>
-              <option value="Rajasthan">Rajasthan</option>
+              <option value="Tamil Nadu">{translateState("Tamil Nadu")}</option>
+              <option value="Uttar Pradesh">{translateState("Uttar Pradesh")}</option>
+              <option value="Karnataka">{translateState("Karnataka")}</option>
+              <option value="Maharashtra">{translateState("Maharashtra")}</option>
+              <option value="Kerala">{translateState("Kerala")}</option>
+              <option value="Delhi">{translateState("Delhi")}</option>
+              <option value="Rajasthan">{translateState("Rajasthan")}</option>
             </select>
           </div>
 
           {/* Occupation */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              Primary Occupation
+              {t.occupationLabel}
             </label>
             <select
               value={formData.occupation || 'Student'}
               onChange={(e) => handleFieldChange('occupation', e.target.value)}
               className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white"
             >
-              <option value="Student">Student</option>
-              <option value="Farmer">Farmer (Agriculturalist)</option>
-              <option value="Unemployed">Unemployed / Job Seeker</option>
-              <option value="Self-Employed">Self-Employed / Artisan / Micro-business</option>
-              <option value="Daily Wage">Daily Wage Laborer</option>
-              <option value="Salaried">Salaried Employee</option>
-              <option value="Senior Citizen">Senior Citizen / Retired</option>
-              <option value="Homemaker">Homemaker</option>
+              <option value="Student">{translateOccupation("Student")}</option>
+              <option value="Farmer">{translateOccupation("Farmer")}</option>
+              <option value="Unemployed">{translateOccupation("Unemployed")}</option>
+              <option value="Self-Employed">{translateOccupation("Self-Employed")}</option>
+              <option value="Daily Wage">{translateOccupation("Daily Wage")}</option>
+              <option value="Salaried">{language === 'ta' ? 'மாத ஊதியப் பணியாளர்' : language === 'hi' ? 'वेतनभोगी कर्मचारी' : 'Salaried Employee'}</option>
+              <option value="Senior Citizen">{language === 'ta' ? 'மூத்த குடிமக்கள் / ஓய்வு பெற்றவர்' : language === 'hi' ? 'वरिष्ठ नागरिक / सेवानिवृत्त' : 'Senior Citizen / Retired'}</option>
+              <option value="Homemaker">{language === 'ta' ? 'இல்லத்தரசி' : language === 'hi' ? 'गृहिणी' : 'Homemaker'}</option>
             </select>
           </div>
 
           {/* Education */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              Highest / Current Education
+              {t.educationLabel}
             </label>
             <select
               value={formData.education || 'Undergraduate'}
               onChange={(e) => handleFieldChange('education', e.target.value)}
               className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white"
             >
-              <option value="Undergraduate">Undergraduate (Degree)</option>
-              <option value="Post-Graduate">Post-Graduate (Master's / PhD)</option>
-              <option value="ITI/Diploma">ITI / Diploma / Polytechnic</option>
-              <option value="High School">High School (10th / 12th)</option>
-              <option value="School">Middle / Primary School</option>
-              <option value="None">No Formal Schooling</option>
+              <option value="Undergraduate">{language === 'ta' ? 'இளங்கலை பட்டப்படிப்பு (Degree)' : language === 'hi' ? 'स्नातक (डिग्री)' : 'Undergraduate (Degree)'}</option>
+              <option value="Post-Graduate">{language === 'ta' ? 'முதுகலை பட்டப்படிப்பு (Master\'s / PhD)' : language === 'hi' ? 'स्नातकोत्तर (मास्टर्स / पीएचडी)' : 'Post-Graduate (Master\'s / PhD)'}</option>
+              <option value="ITI/Diploma">{language === 'ta' ? 'டிப்ளமோ / பாலிடெக்னிக் / ஐடிஐ' : language === 'hi' ? 'आईटीआई / डिप्लोमा' : 'ITI / Diploma / Polytechnic'}</option>
+              <option value="High School">{language === 'ta' ? 'மேல்நிலைப் பள்ளி (10வது / 12வது)' : language === 'hi' ? 'हाई स्कूल (10वीं / 12वीं)' : 'High School (10th / 12th)'}</option>
+              <option value="School">{language === 'ta' ? 'தொடக்க / நடுநிலைப் பள்ளி' : language === 'hi' ? 'माध्यमिक / प्राथमिक स्कूल' : 'Middle / Primary School'}</option>
+              <option value="None">{language === 'ta' ? 'முறையான பள்ளிப்படிப்பு இல்லை' : language === 'hi' ? 'कोई औपचारिक स्कूली शिक्षा नहीं' : 'No Formal Schooling'}</option>
             </select>
           </div>
 
           {/* Annual Family Income */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              Annual Family Income (INR ₹)
+              {t.incomeLabel} (₹)
             </label>
             <input
               type="number"
@@ -265,18 +267,18 @@ export const ProfilePage: React.FC = () => {
           {/* Social Category */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              Social Category
+              {t.socialCategoryLabel}
             </label>
             <select
               value={formData.social_category || 'OBC'}
               onChange={(e) => handleFieldChange('social_category', e.target.value)}
               className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white"
             >
-              <option value="OBC">OBC (Other Backward Classes / BC / MBC)</option>
-              <option value="SC">SC (Scheduled Caste)</option>
-              <option value="ST">ST (Scheduled Tribe)</option>
+              <option value="OBC">OBC / BC / MBC</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
               <option value="General">General</option>
-              <option value="EWS">EWS (Economically Weaker Section)</option>
+              <option value="EWS">EWS</option>
               <option value="Minority">Minority</option>
             </select>
           </div>
@@ -284,33 +286,33 @@ export const ProfilePage: React.FC = () => {
           {/* Marital Status */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              Marital Status
+              {t.maritalStatusLabel}
             </label>
             <select
               value={formData.marital_status || 'Single'}
               onChange={(e) => handleFieldChange('marital_status', e.target.value)}
               className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white"
             >
-              <option value="Single">Single</option>
-              <option value="Married">Married</option>
-              <option value="Widow">Widow / Destitute</option>
-              <option value="Divorced">Divorced</option>
+              <option value="Single">{language === 'ta' ? 'திருமணமாகாதவர்' : language === 'hi' ? 'अविवाहित' : 'Single'}</option>
+              <option value="Married">{language === 'ta' ? 'திருமணமானவர்' : language === 'hi' ? 'विवाहित' : 'Married'}</option>
+              <option value="Widow">{language === 'ta' ? 'விதவை / கணவரால் கைவிடப்பட்டவர்' : language === 'hi' ? 'विधवा / निराश्रित' : 'Widow / Destitute'}</option>
+              <option value="Divorced">{language === 'ta' ? 'விவாகரத்து பெற்றவர்' : language === 'hi' ? 'तलाकशुदा' : 'Divorced'}</option>
             </select>
           </div>
 
           {/* Residence Type */}
           <div>
             <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-              Area of Residence
+              {t.residenceLabel}
             </label>
             <select
               value={formData.residence_type || 'Urban'}
               onChange={(e) => handleFieldChange('residence_type', e.target.value)}
               className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white"
             >
-              <option value="Urban">Urban (City / Municipality)</option>
-              <option value="Rural">Rural (Village / Gram Panchayat)</option>
-              <option value="Semi-Urban">Semi-Urban</option>
+              <option value="Urban">{language === 'ta' ? 'நகர்ப்புறம் (மாநகராட்சி / நகராட்சி)' : language === 'hi' ? 'शहरी (नगर निगम / पालिका)' : 'Urban (City / Municipality)'}</option>
+              <option value="Rural">{language === 'ta' ? 'கிராமப்புறம் (கிராம ஊராட்சி)' : language === 'hi' ? 'ग्रामीण (गांव / ग्राम पंचायत)' : 'Rural (Village / Gram Panchayat)'}</option>
+              <option value="Semi-Urban">{language === 'ta' ? 'அரை நகர்ப்புறம்' : language === 'hi' ? 'अर्ध-शहरी' : 'Semi-Urban'}</option>
             </select>
           </div>
         </div>
@@ -322,7 +324,7 @@ export const ProfilePage: React.FC = () => {
             className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs transition-colors shadow-sm flex items-center gap-1.5"
           >
             <Save className="w-4 h-4" />
-            <span>{saving ? t.saving : t.saveProfile}</span>
+            <span>{saving ? t.savingProfile : t.saveProfile}</span>
           </button>
         </div>
       </form>

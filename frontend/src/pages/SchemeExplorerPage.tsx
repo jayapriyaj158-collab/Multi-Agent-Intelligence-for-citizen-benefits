@@ -19,7 +19,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 export const SchemeExplorerPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, translateCategory, translateState, translateOccupation, language } = useLanguage();
 
   const [schemes, setSchemes] = useState<Scheme[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -78,7 +78,7 @@ export const SchemeExplorerPage: React.FC = () => {
         return prev.filter(id => id !== schemeId);
       }
       if (prev.length >= 4) {
-        alert("You can compare up to 4 schemes at a time.");
+        alert(language === 'ta' ? "ஒரே நேரத்தில் 4 திட்டங்களை மட்டுமே ஒப்பிட முடியும்." : language === 'hi' ? "आप एक बार में केवल 4 योजनाओं की तुलना कर सकते हैं।" : "You can compare up to 4 schemes at a time.");
         return prev;
       }
       return [...prev, schemeId];
@@ -87,7 +87,7 @@ export const SchemeExplorerPage: React.FC = () => {
 
   const handleLaunchCompare = () => {
     if (compareList.length < 2) {
-      alert("Please select at least 2 schemes to compare.");
+      alert(language === 'ta' ? "ஒப்பிட குறைந்தபட்சம் 2 திட்டங்களைத் தேர்ந்தெடுக்கவும்." : language === 'hi' ? "तुलना करने के लिए कृपया कम से कम 2 योजनाओं का चयन करें।" : "Please select at least 2 schemes to compare.");
       return;
     }
     navigate(`/compare?ids=${compareList.join(',')}`);
@@ -99,10 +99,10 @@ export const SchemeExplorerPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            {t.explorerHeading}
+            {t.explorerTitle}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            {t.explorerSubheading}
+            {t.explorerSubtitle}
           </p>
         </div>
 
@@ -110,14 +110,14 @@ export const SchemeExplorerPage: React.FC = () => {
         {compareList.length > 0 && (
           <div className="flex items-center gap-2 p-2 rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-800 text-xs">
             <span className="font-semibold text-indigo-700 dark:text-indigo-300">
-              {compareList.length} Selected for Compare
+              {compareList.length} {language === 'ta' ? 'தேர்ந்தெடுக்கப்பட்டது' : language === 'hi' ? 'चयनित' : 'Selected'}
             </span>
             <button
               onClick={handleLaunchCompare}
               className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center gap-1 shadow-sm"
             >
               <Scale className="w-3.5 h-3.5" />
-              <span>Compare Now</span>
+              <span>{t.compareSchemes}</span>
             </button>
             <button
               onClick={() => setCompareList([])}
@@ -146,7 +146,7 @@ export const SchemeExplorerPage: React.FC = () => {
             type="submit"
             className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold transition-colors shadow-sm"
           >
-            {t.send}
+            {t.searchBtn}
           </button>
         </form>
 
@@ -154,67 +154,73 @@ export const SchemeExplorerPage: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-xs">
           {/* Category */}
           <div>
-            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.filterByCategory}:</label>
+            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.categoryLabel}</label>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium focus:outline-none"
             >
               <option value="All">{t.allCategories}</option>
-              <option value="Education">Education & Scholarships</option>
-              <option value="Agriculture">Agriculture & Farmers</option>
-              <option value="Health">Health & Insurance</option>
-              <option value="Housing">Housing</option>
-              <option value="Employment">Employment & MSME</option>
-              <option value="Social Security">Social Security & Pension</option>
+              <option value="Education">{translateCategory("Education")}</option>
+              <option value="Health">{translateCategory("Health")}</option>
+              <option value="Employment">{translateCategory("Employment")}</option>
+              <option value="Skill Development">{translateCategory("Skill Development")}</option>
+              <option value="Agriculture">{translateCategory("Agriculture")}</option>
+              <option value="Women & Child Welfare">{translateCategory("Women & Child Welfare")}</option>
+              <option value="Social Security">{translateCategory("Social Security")}</option>
+              <option value="Housing">{translateCategory("Housing")}</option>
+              <option value="Financial Assistance">{translateCategory("Financial Assistance")}</option>
+              <option value="Disability Support">{translateCategory("Disability Support")}</option>
+              <option value="Student Welfare">{translateCategory("Student Welfare")}</option>
+              <option value="Other">{translateCategory("Other")}</option>
             </select>
           </div>
 
           {/* State */}
           <div>
-            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.filterByState}:</label>
+            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.stateLabel}</label>
             <select
               value={selectedState}
               onChange={(e) => setSelectedState(e.target.value)}
               className="w-full p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium focus:outline-none"
             >
               <option value="All India">{t.allStates}</option>
-              <option value="Tamil Nadu">Tamil Nadu</option>
-              <option value="Uttar Pradesh">Uttar Pradesh</option>
-              <option value="Karnataka">Karnataka</option>
-              <option value="Maharashtra">Maharashtra</option>
-              <option value="Kerala">Kerala</option>
+              <option value="Tamil Nadu">{translateState("Tamil Nadu")}</option>
+              <option value="Uttar Pradesh">{translateState("Uttar Pradesh")}</option>
+              <option value="Karnataka">{translateState("Karnataka")}</option>
+              <option value="Maharashtra">{translateState("Maharashtra")}</option>
+              <option value="Kerala">{translateState("Kerala")}</option>
             </select>
           </div>
 
           {/* Occupation */}
           <div>
-            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.filterByOccupation}:</label>
+            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.occupationLabel}</label>
             <select
               value={selectedOccupation}
               onChange={(e) => setSelectedOccupation(e.target.value)}
               className="w-full p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium focus:outline-none"
             >
               <option value="All">{t.allOccupations}</option>
-              <option value="Student">Student</option>
-              <option value="Farmer">Farmer</option>
-              <option value="Unemployed">Unemployed / Job Seeker</option>
-              <option value="Self-Employed">Self-Employed / Artisan</option>
-              <option value="Daily Wage">Daily Wage / Laborer</option>
+              <option value="Student">{translateOccupation("Student")}</option>
+              <option value="Farmer">{translateOccupation("Farmer")}</option>
+              <option value="Unemployed">{translateOccupation("Unemployed")}</option>
+              <option value="Self-Employed">{translateOccupation("Self-Employed")}</option>
+              <option value="Daily Wage">{translateOccupation("Daily Wage")}</option>
             </select>
           </div>
 
           {/* Gender */}
           <div>
-            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.filterByGender}:</label>
+            <label className="text-[10px] font-semibold text-slate-400 block mb-1">{t.genderLabel}</label>
             <select
               value={selectedGender}
               onChange={(e) => setSelectedGender(e.target.value)}
               className="w-full p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium focus:outline-none"
             >
               <option value="All">{t.allGenders}</option>
-              <option value="Female">Female (Women Welfare)</option>
-              <option value="Male">Male</option>
+              <option value="Female">{language === 'ta' ? 'பெண்' : language === 'hi' ? 'महिला' : 'Female'}</option>
+              <option value="Male">{language === 'ta' ? 'ஆண்' : language === 'hi' ? 'पुरुष' : 'Male'}</option>
             </select>
           </div>
 
@@ -226,7 +232,7 @@ export const SchemeExplorerPage: React.FC = () => {
               className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>{t.clearFiltersBtn}</span>
+              <span>{t.resetFilters}</span>
             </button>
           </div>
         </div>
@@ -237,22 +243,22 @@ export const SchemeExplorerPage: React.FC = () => {
         <div className="py-20 text-center space-y-3">
           <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
           <p className="text-xs text-slate-500 font-medium">
-            Retrieving verified government schemes from verified knowledge base...
+            {language === 'ta' ? 'ஏற்றப்படுகிறது...' : language === 'hi' ? 'लोड हो रहा है...' : 'Loading...'}
           </p>
         </div>
       ) : schemes.length === 0 ? (
         <div className="py-16 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-3">
           <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-            {t.noSchemesMatch}
+            {t.noSchemesFound}
           </p>
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            {t.noSchemesAdvice}
+            {t.tryDifferentFilters}
           </p>
           <button
             onClick={handleResetFilters}
             className="px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-semibold"
           >
-            {t.clearFiltersBtn}
+            {t.resetFilters}
           </button>
         </div>
       ) : (

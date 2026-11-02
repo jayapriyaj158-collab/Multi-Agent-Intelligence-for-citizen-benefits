@@ -46,7 +46,17 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
 }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  const { t } = useLanguage();
+  const { 
+    t, 
+    language,
+    translateCategory, 
+    translateState, 
+    translateSchemeName,
+    translateSchemeShortName,
+    translateSchemeDescription, 
+    translateSchemeBenefits, 
+    translateRankingReason 
+  } = useLanguage();
   const [savedState, setSavedState] = useState(isSaved);
   const [saveLoading, setSaveLoading] = useState(false);
 
@@ -76,11 +86,11 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         <div className="flex items-start justify-between gap-2 mb-2.5">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-              {scheme.category}
+              {translateCategory(scheme.category)}
             </span>
             <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center gap-1">
               <MapPin className="w-3 h-3 text-slate-400" />
-              {scheme.state}
+              {translateState(scheme.state)}
             </span>
             {scheme.is_umang_supported && (
               <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300">
@@ -98,7 +108,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
             {onSelectForCompare && (
               <button
                 onClick={() => onSelectForCompare(scheme.scheme_id)}
-                title="Select for Comparison"
+                title={language === 'ta' ? "ஒப்பிடுவதற்குத் தேர்ந்தெடுக்கவும்" : language === 'hi' ? "तुलना के लिए चुनें" : "Select for Comparison"}
                 className={`p-1.5 rounded-lg border text-xs transition-colors ${
                   isSelectedForCompare
                     ? 'bg-indigo-600 text-white border-indigo-600'
@@ -111,7 +121,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
             <button
               onClick={handleSave}
               disabled={saveLoading}
-              title={savedState ? "Remove from Saved" : "Save Scheme"}
+              title={savedState ? (language === 'ta' ? "சேமிக்கப்பட்டதிலிருந்து அகற்று" : language === 'hi' ? "सहेजे गए से हटाएं" : "Remove from Saved") : (language === 'ta' ? "திட்டத்தைச் சேமி" : language === 'hi' ? "योजना सहेजें" : "Save Scheme")}
               className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-indigo-600 hover:bg-slate-50 transition-colors"
             >
               {savedState ? (
@@ -126,11 +136,11 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         {/* Scheme Title */}
         <Link to={`/schemes/${scheme.scheme_id}`} className="block group-hover:text-indigo-600 transition-colors">
           <h3 className="font-bold text-base text-slate-900 dark:text-white leading-snug line-clamp-2">
-            {scheme.scheme_name}
+            {translateSchemeName(scheme.scheme_id, scheme.scheme_name)}
           </h3>
           {scheme.short_name && (
             <p className="text-xs text-indigo-600 dark:text-indigo-400 font-medium mt-0.5">
-              ({scheme.short_name})
+              ({translateSchemeShortName(scheme.scheme_id, scheme.short_name)})
             </p>
           )}
         </Link>
@@ -139,22 +149,22 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         {rankingReason && (
           <div className="mt-2 text-[11px] text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-md border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-            <span className="truncate">{t.whyRanks}: {rankingReason}</span>
+            <span className="truncate">{t.whyThisRanks}: {translateRankingReason(rankingReason)}</span>
           </div>
         )}
 
         {/* Brief Description */}
         <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mt-2 leading-relaxed">
-          {scheme.description}
+          {translateSchemeDescription(scheme.scheme_id, scheme.description)}
         </p>
 
         {/* Benefits Highlight Box */}
         <div className="mt-3 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 text-xs">
           <span className="font-semibold text-slate-700 dark:text-slate-300 block mb-0.5">
-            {t.keyBenefit}:
+            {t.keyBenefits}:
           </span>
           <span className="text-slate-900 dark:text-slate-200 font-medium line-clamp-2">
-            {scheme.benefits}
+            {translateSchemeBenefits(scheme.scheme_id, scheme.benefits)}
           </span>
         </div>
       </div>
@@ -166,10 +176,10 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
 
           {/* AI Match Score with Disclaimer Tooltip */}
           <div className="relative group/tooltip flex items-center gap-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-800 cursor-help">
-            <span>{matchScore}% {t.matchScore}</span>
+            <span>{matchScore}% {t.profileMatch}</span>
             <AlertCircle className="w-3 h-3 text-indigo-400" />
             <div className="absolute bottom-full right-0 mb-1 hidden group-hover/tooltip:block w-48 p-2 rounded bg-slate-900 text-white text-[10px] leading-tight shadow-xl z-20">
-              AI-assisted profile similarity indicator, not an official government eligibility score.
+              {t.matchTooltip}
             </div>
           </div>
         </div>
@@ -179,10 +189,10 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
           <div className="flex items-center justify-between text-[11px] text-slate-500 mb-1">
             <span className="flex items-center gap-1 font-medium">
               <FileCheck2 className="w-3.5 h-3.5 text-slate-400" />
-              {t.readiness}:
+              {t.docPrepReadiness}:
             </span>
             <span className="font-semibold text-slate-700 dark:text-slate-300">
-              {readinessPercentage}% {t.ready}
+              {readinessPercentage}% {t.readyLabel}
             </span>
           </div>
           <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
@@ -199,11 +209,11 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         <div className="flex items-center justify-between text-[11px] text-slate-400">
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            {scheme.deadline || t.openYearRound}
+            {scheme.deadline === 'Ongoing' ? (language === 'ta' ? 'தொடர்ந்து செயல்பாட்டில்' : language === 'hi' ? 'निरंतर चालू' : 'Ongoing') : (scheme.deadline || t.openYearRound)}
           </span>
           <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
             <ShieldCheck className="w-3 h-3" />
-            {t.verifiedData}
+            {scheme.verification_status === "VERIFIED" ? t.verifiedData : t.catalogData}
           </span>
         </div>
 

@@ -19,7 +19,7 @@ import { useSimpleMode } from '../contexts/SimpleModeContext';
 import { voiceService } from '../services/voice';
 
 export const SimpleModeHome: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice }) => {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const { toggleSimpleMode } = useSimpleMode();
   const navigate = useNavigate();
 
@@ -87,7 +87,9 @@ export const SimpleModeHome: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVo
             className="p-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 shadow flex items-center gap-2 font-bold text-sm"
           >
             <Volume2 className="w-6 h-6 animate-pulse" />
-            <span>{t.simpleListen}</span>
+            <span>
+              {language === 'ta' ? 'குரல் வழி வழிகாட்டல்' : language === 'hi' ? 'आवाज मार्गदर्शन (सुनें)' : 'Voice Instructions (Listen)'}
+            </span>
           </button>
         </div>
 
@@ -95,7 +97,7 @@ export const SimpleModeHome: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVo
           onClick={toggleSimpleMode}
           className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs"
         >
-          {t.exitSimpleMode}
+          {language === 'ta' ? 'எளிய முறையிலிருந்து வெளியேறுக ✕' : language === 'hi' ? 'सरल मोड से बाहर निकलें ✕' : 'Exit Simple Mode ✕'}
         </button>
       </div>
 
@@ -105,7 +107,7 @@ export const SimpleModeHome: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVo
           {language === 'ta' ? "பேசி உதவி பெறலாம்" : language === 'hi' ? "बोलकर योजना खोजें" : "Speak to Find Benefits"}
         </h2>
         <p className="text-sm font-medium text-emerald-100 max-w-md mx-auto">
-          {language === 'ta' ? "கீழே உள்ள மைக்ரோஃபோன் பொத்தானை அழுத்தி உங்கள் தேவையை பேசுங்கள்." : language === 'hi' ? "नीचे दिए गए बटन को दबाकर अपनी भाषा में बोलें।" : "Press the button below and speak in your language."}
+          {language === 'ta' ? "கீழே உள்ள மைக்ரோஃபோன் பொத்தானை அழுத்தி உங்கள் தேவையை பேசுங்கள்." : language === 'hi' ? "नीचे दिए गए बटन को दबाएं और अपनी भाषा में बोलें।" : "Press the button below and speak in your language."}
         </p>
 
         <button
@@ -116,10 +118,10 @@ export const SimpleModeHome: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVo
         </button>
       </div>
 
-      {/* Large Category Buttons */}
+      {/* Large Category Buttons (Requirement #29) */}
       <div className="space-y-4">
         <h3 className="text-xl font-extrabold text-slate-900 dark:text-white text-center">
-          {language === 'ta' ? "அல்லது ஒரு பிரிவை தொடவும்:" : language === 'hi' ? "या कोई श्रेणी चुनें:" : "Or Tap a Category:"}
+          {language === 'ta' ? "அல்லது ஒரு பிரிவை தொடவும்:" : language === 'hi' ? "या किसी श्रेणी को चुनें:" : "Or Tap a Category:"}
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

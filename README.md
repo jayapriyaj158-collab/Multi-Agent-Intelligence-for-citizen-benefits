@@ -1,5 +1,5 @@
 # Multi-Agent Intelligence for Citizen Benefits
-### Autonomous Multi-Agent AI Platform for Indian Welfare Access
+### Smart India Hackathon (SIH 2026) — Complete AI Prototype
 
 > **"From Scheme Search to Benefit Access"**  
 > *One Profile. Multiple Benefits. Explainable AI. Guided Access.*  
@@ -146,13 +146,13 @@ npm run dev
 | Role | Email | Password | Pre-configured Profile |
 | :--- | :--- | :--- | :--- |
 | **Demo Citizen** | `citizen@example.com` | `citizen123` | Karthik Subramanian, 19, Student, Undergraduate, Tamil Nadu, Family Income ₹2,00,000, OBC |
-| **Demo Admin** | `admin@citizenbenefits.gov.in` | `admin123` | National Welfare Admin Officer (Access to Rule Editor, Freshness Monitor, Audit Logs) |
+| **Demo Admin** | `admin@sih2026.gov.in` | `admin123` | National Welfare Admin Officer (Access to Rule Editor, Freshness Monitor, Audit Logs) |
 
 *(You can also click the quick **"Demo Citizen"** or **"Demo Admin"** buttons directly on the Navbar or Login page).*
 
 ---
 
-## 6. Live System Evaluation Scenarios
+## 6. Live SIH 2026 Test Scenarios
 
 ### Benchmark Scenario 1: Tamil College Student (Requirement #55)
 1. Navigate to **AI Assistant** or tap the **Microphone** button.
@@ -186,7 +186,7 @@ npm run dev
 
 ---
 
-## 7. Compliance & AI Ethics Guidelines
+## 7. Compliance & AI Ethics (SIH 2026 Guidelines)
 - **Zero Hallucination Guarantee**: Rule evaluation is handled exclusively by Python mathematical operators (`lte`, `gte`, `eq`, `in`); LLMs do not generate or guess eligibility thresholds.
 - **Truth in Advertising**: Explicit banners clearly denote **Manual Demo Tracking** and **AI-assisted Profile Match Score** with non-governmental disclaimers.
 - **Privacy First**: No raw Aadhaar or banking OTPs are requested or saved.

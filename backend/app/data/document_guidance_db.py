@@ -126,29 +126,121 @@ DOCUMENT_GUIDANCE: Dict[str, Dict[str, Any]] = {
             "Passport size photograph showing disability if visible"
         ],
         "disclaimer": "Benchmark benefits require at least 40% permanent disability certified by a government medical board."
+    },
+    "Previous Year Marksheet": {
+        "document_name": "Previous Year Marksheet / Grade Transcript (முந்தைய ஆண்டு மதிப்பெண் சான்றிதழ்)",
+        "what_is_it": "Official statement of marks or grade card issued by the educational institution or university board for the preceding academic year.",
+        "why_required": "Used by scholarship authorities to verify academic progress, eligibility percentage, and continuous enrollment.",
+        "who_issues": "Controller of Examinations / School Board / College Academic Cell.",
+        "where_to_apply": "College Academic Administration Office or DigiLocker National Academic Depository (NAD).",
+        "online_offline": "Both Online (DigiLocker / University Student Portal) and Offline (College Examination Cell).",
+        "expected_process": [
+            "Step 1: Download verified digital marksheet from DigiLocker National Academic Depository (NAD) using your student registration number.",
+            "Step 2: Alternatively, request an official certified duplicate from your college registrar/principal office with institutional seal."
+        ],
+        "official_source_url": "https://nad.digilocker.gov.in",
+        "required_inputs": [
+            "Student Examination Roll / Registration Number",
+            "College Student ID card"
+        ],
+        "disclaimer": "Must indicate the official institutional seal or DigiLocker digital verification certificate."
+    },
+    "Bank Passbook": {
+        "document_name": "Bank Passbook / Account Statement (வங்கி கணக்கு புத்தகம்)",
+        "what_is_it": "Front page of the bank passbook or recent electronic account statement displaying account holder name, account number, and bank IFSC code.",
+        "why_required": "Required for Direct Benefit Transfer (DBT) of scholarship, subsidy, or pension credits directly into the citizen's Aadhaar-seeded bank account.",
+        "who_issues": "Authorized Public / Private Scheduled Commercial Bank, Regional Rural Bank (RRB), or India Post Payments Bank.",
+        "where_to_apply": "Home Bank Branch or through authorized Net Banking / Mobile Banking portal.",
+        "online_offline": "Both Online (Net Banking e-Statement) and Offline (Bank branch counter).",
+        "expected_process": [
+            "Step 1: Visit your home bank branch or log in to net banking.",
+            "Step 2: Ensure your account is Aadhaar-seeded on NPCI mapper for DBT credit.",
+            "Step 3: Obtain a clear copy of the front passbook page or download e-statement with printed IFSC."
+        ],
+        "official_source_url": "https://financialservices.gov.in",
+        "required_inputs": [
+            "Savings Account Number",
+            "Aadhaar Card linked to Mobile for OTP"
+        ],
+        "disclaimer": "Account must be active and mapped to Aadhaar via NPCI for Direct Benefit Transfer (DBT)."
+    },
+    "Ration Card": {
+        "document_name": "Ration Card / Smart Family Card (குடும்ப அட்டை / राशन कार्ड)",
+        "what_is_it": "Official family entitlement card issued by state civil supplies authorities certifying family composition and food security classification.",
+        "why_required": "Required to verify household members, resident status, and economic category (BPL/AAY/NPHH).",
+        "who_issues": "Department of Food, Civil Supplies and Consumer Affairs / Taluk Supply Officer (TSO).",
+        "where_to_apply": "State Public Distribution Portal (e.g. tnpds.gov.in) or local e-Seva / CSC center.",
+        "online_offline": "Both Online (State PDS Portal) and Offline (Taluk Supply Office / Fair Price Shop).",
+        "expected_process": [
+            "Step 1: Visit state PDS portal or authorized CSC counter.",
+            "Step 2: Submit family head Aadhaar and member details with gas consumer number.",
+            "Step 3: Verification by Taluk Supply Inspector and issuance of Smart Family Card."
+        ],
+        "official_source_url": "https://nfsa.gov.in",
+        "required_inputs": [
+            "Aadhaar Cards of all family members",
+            "Address proof / Electricity bill"
+        ],
+        "disclaimer": "Ensure all family member names match Aadhaar spelling to avoid DBT validation mismatches."
+    },
+    "Husband Death Certificate": {
+        "document_name": "Husband Death Certificate (கணவரின் இறப்புச் சான்றிதழ் / पति का मृत्यु प्रमाण पत्र)",
+        "what_is_it": "Official civil registration certificate confirming the demise of the husband, issued under the Registration of Births and Deaths Act.",
+        "why_required": "Mandatory statutory document required to confirm eligibility for National and State Widow Pension schemes.",
+        "who_issues": "Registrar of Births & Deaths / Municipal Corporation / Village Administrative Officer (VAO).",
+        "where_to_apply": "Civil Registration System (CRS) portal or local municipal / panchayat administration office.",
+        "online_offline": "Both Online (crsorgi.gov.in / State Urban Local Body Portal) and Offline (Local Registrar Office).",
+        "expected_process": [
+            "Step 1: Submit death report within 21 days at the municipal corporation or panchayat office.",
+            "Step 2: Attach hospital medical cause of death slip and burial/cremation receipt.",
+            "Step 3: Registrar registers record and issues digital certificate."
+        ],
+        "official_source_url": "https://crsorgi.gov.in",
+        "required_inputs": [
+            "Hospital Medical Certification of Cause of Death",
+            "Aadhaar card of deceased husband and surviving spouse"
+        ],
+        "disclaimer": "Must bear government registration number and official seal or digital PKI signature."
+    },
+    "Aadhaar Card": {
+        "document_name": "Aadhaar Card (UIDAI) (ஆதார் அட்டை / आधार कार्ड)",
+        "what_is_it": "12-digit unique identity number issued by UIDAI based on biometric and demographic data.",
+        "why_required": "Statutory identity and address proof required for scheme beneficiary validation and DBT payment processing.",
+        "who_issues": "Unique Identification Authority of India (UIDAI).",
+        "where_to_apply": "Authorized Aadhaar Seva Kendra, post office, or myAadhaar portal (myaadhaar.uidai.gov.in).",
+        "online_offline": "Both Online (myAadhaar download with OTP) and Offline (Aadhaar Seva Kendra).",
+        "expected_process": [
+            "Step 1: Visit myaadhaar.uidai.gov.in and click 'Download Aadhaar'.",
+            "Step 2: Enter 12-digit Aadhaar number and OTP received on linked mobile.",
+            "Step 3: Download password-protected masked e-Aadhaar PDF."
+        ],
+        "official_source_url": "https://myaadhaar.uidai.gov.in",
+        "required_inputs": [
+            "Aadhaar Number or Enrollment ID (EID)",
+            "Registered Mobile Number for OTP"
+        ],
+        "disclaimer": "Always prefer masked Aadhaar showing only last 4 digits for privacy compliance."
     }
 }
 
 def get_missing_document_guidance(doc_name: str) -> Dict[str, Any]:
-    """Retrieve detailed guidance for a document or return a structured fallback."""
+    """Retrieve detailed guidance for a document or return verified fallback."""
     for key, val in DOCUMENT_GUIDANCE.items():
         if key.lower() in doc_name.lower() or doc_name.lower() in key.lower():
             return val
     
-    # Generic structured fallback
+    # Generic structured fallback (Requirement #11)
     return {
         "document_name": doc_name,
-        "what_is_it": f"Official certification of {doc_name} required for government eligibility verification.",
-        "why_required": "Submitted as documentary proof during scrutiny by the sanctioning department.",
-        "who_issues": "Concerned State or Central Government Department or Educational Authority.",
-        "where_to_apply": "State Single Window e-Seva portal, CSC centers, or District Administrative Office.",
-        "online_offline": "Available via State Citizen Portal or in person at departmental office.",
+        "what_is_it": "Official acquisition information is not available in the current verified data.",
+        "why_required": f"Submitted as documentary requirement for verified scheme processing.",
+        "who_issues": "Official acquisition information is not available in the current verified data.",
+        "where_to_apply": "Official acquisition information is not available in the current verified data.",
+        "online_offline": "Official acquisition information is not available in the current verified data.",
         "expected_process": [
-            "Step 1: Check required checklist on state e-District or department portal.",
-            "Step 2: Submit application with proof of identity and local address.",
-            "Step 3: Department verifies details and issues certified copy."
+            "Official acquisition information is not available in the current verified data."
         ],
         "official_source_url": "https://services.india.gov.in",
-        "required_inputs": ["Aadhaar Card", "Proof of Identity", "Application Form"],
-        "disclaimer": "Official issuing procedures may vary slightly by state/district. Please verify with local e-Seva / Tahsildar portal."
+        "required_inputs": [],
+        "disclaimer": "This score reflects your document preparation progress for this application, not government document verification."
     }

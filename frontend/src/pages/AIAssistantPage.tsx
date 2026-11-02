@@ -70,7 +70,7 @@ interface Message {
 
 export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice }) => {
   const [searchParams] = useSearchParams();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, translateCategory, translateSchemeName, translateSchemeBenefits, translateRankingReason, translateDocName } = useLanguage();
   const { profile } = useAuth();
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -103,20 +103,8 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
           sender: 'orchestrator',
           text: initialText,
           language,
-          suggested_actions: language === 'ta' ? [
-            "நான் கல்லூரி மாணவன், உதவித்தொகை உள்ளதா?",
-            "கல்லூரி கல்விக்கு நிதியுதவி தேவை",
-            "விவசாயிகளுக்கு என்னென்ன திட்டங்கள் உள்ளன?",
-            "வருமானச் சான்றிதழ் பெறுவது எப்படி?",
-            "எனது விண்ணப்பத்தைக் கண்காணிக்கவும்"
-          ] : language === 'hi' ? [
-            "मैं कॉलेज का छात्र हूँ, क्या छात्रवृत्ति उपलब्ध है?",
-            "कॉलेज की पढ़ाई के लिए आर्थिक सहायता चाहिए",
-            "किसानों के लिए कौन सी योजनाएं उपलब्ध हैं?",
-            "आय प्रमाण पत्र कैसे प्राप्त करें?",
-            "मेरा आवेदन ट्रैक करें"
-          ] : [
-            "I am a college student, are there scholarships available?",
+          suggested_actions: [
+            "Naan college student, scholarship irukka? (Tamil)",
             "I need financial help for college education",
             "What benefits are available for farmers?",
             "How to get Income Certificate?",
@@ -244,13 +232,13 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
           </div>
           <div>
             <h2 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-              {t.navAssistant}
+              {t.assistantTitle}
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                Deterministic Rule Engine Active
+                {language === 'ta' ? 'விதி இயந்திரம் செயல்படுகிறது' : language === 'hi' ? 'नियम इंजन सक्रिय है' : 'Deterministic Rule Engine Active'}
               </span>
             </h2>
             <p className="text-[11px] text-slate-500">
-              Understands English, தமிழ் (Tamil), and हिन्दी (Hindi)
+              {language === 'ta' ? 'தமிழ், ஆங்கிலம் மற்றும் இந்தியைப் புரிந்துகொள்கிறது' : language === 'hi' ? 'हिंदी, तमिल और अंग्रेजी समझता है' : 'Understands English, தமிழ் (Tamil), and हिन्दी (Hindi)'}
             </p>
           </div>
         </div>
@@ -261,11 +249,11 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
             className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-medium flex items-center gap-1 shadow-sm hover:bg-emerald-700 transition-colors"
           >
             <Mic className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{t.speakBtn}</span>
+            <span className="hidden sm:inline">{t.voiceMode}</span>
           </button>
           <button
             onClick={() => setMessages([])}
-            title="Reset Conversation"
+            title={t.resetConversation}
             className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100"
           >
             <RotateCcw className="w-4 h-4" />
@@ -301,12 +289,12 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                       {speakingMsgId === msg.id ? (
                         <>
                           <VolumeX className="w-3.5 h-3.5 text-rose-500" />
-                          <span className="text-rose-500">Stop Voice</span>
+                          <span className="text-rose-500">{t.stopVoice}</span>
                         </>
                       ) : (
                         <>
                           <Volume2 className="w-3.5 h-3.5" />
-                          <span>Speak Aloud</span>
+                          <span>{t.speakAloud}</span>
                         </>
                       )}
                     </button>
@@ -317,14 +305,14 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                         className="inline-flex items-center gap-1 text-[11px] text-purple-600 dark:text-purple-400 font-semibold hover:underline"
                       >
                         <Cpu className="w-3.5 h-3.5" />
-                        <span>Explain AI Reasoning</span>
+                        <span>{t.explainReasoning}</span>
                       </button>
                     )}
                   </div>
 
                   {msg.citations && msg.citations.length > 0 && (
                     <span className="text-[10px] text-slate-400">
-                      Grounded in {msg.citations.length} Verified Sources
+                      {t.groundedInSources}
                     </span>
                   )}
                 </div>
@@ -335,7 +323,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
             {msg.card_type === 'schemes' && msg.card_data && (
               <div className="w-full max-w-3xl space-y-3 pt-2">
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-                  Discovered Verified Schemes:
+                  {t.discoveredSchemes}
                 </span>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {(Array.isArray(msg.card_data) ? msg.card_data : msg.card_data.schemes || []).map((sc: any, idx: number) => (
@@ -346,28 +334,28 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <span className="text-[10px] font-bold text-indigo-600 px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950">
-                            {sc.category}
+                            {translateCategory(sc.category)}
                           </span>
                           <h4 className="font-bold text-sm text-slate-900 dark:text-white mt-1">
-                            {sc.scheme_name}
+                            {translateSchemeName(sc.scheme_id, sc.scheme_name)}
                           </h4>
                         </div>
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                          {sc.eligibility_status}
+                          {sc.eligibility_status === 'POTENTIALLY ELIGIBLE' ? t.potentiallyEligible : sc.eligibility_status === 'LIKELY ELIGIBLE' ? t.likelyEligible : sc.eligibility_status}
                         </span>
                       </div>
 
                       <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">
-                        {sc.benefits}
+                        {translateSchemeBenefits(sc.scheme_id, sc.benefits)}
                       </p>
 
                       <div className="text-[11px] text-indigo-600 bg-indigo-50 dark:bg-indigo-950/60 p-2 rounded-lg font-medium">
-                        ✓ {sc.ranking_reason}
+                        ✓ {translateRankingReason(sc.ranking_reason)}
                       </div>
 
                       <div className="flex items-center justify-between text-xs pt-1">
                         <span className="text-slate-400 text-[11px]">
-                          Docs: {sc.available_documents_count || 1}/{sc.required_documents_count || 4} Ready
+                          {language === 'ta' ? 'ஆவணங்கள்' : language === 'hi' ? 'दस्तावेज़' : 'Docs'}: {sc.available_documents_count || 1}/{sc.required_documents_count || 4} {t.readyLabel}
                         </span>
                         <a
                           href={sc.official_application_url}
@@ -375,7 +363,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                           rel="noreferrer"
                           className="text-indigo-600 font-semibold hover:underline flex items-center gap-1"
                         >
-                          Official Portal <ExternalLink className="w-3 h-3" />
+                          {t.officialPortal} <ExternalLink className="w-3 h-3" />
                         </a>
                       </div>
                     </div>
@@ -389,16 +377,16 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
               <div className="w-full max-w-2xl p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 text-xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold uppercase text-indigo-600 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
-                    Pre-Application Guidance Packet
+                    {language === 'ta' ? 'முன்-விண்ணப்ப வழிகாட்டுதல் தொகுப்பு' : language === 'hi' ? 'आवेदन पूर्व मार्गदर्शन पैकेट' : 'Pre-Application Guidance Packet'}
                   </span>
                   <span className="text-slate-400 text-[10px]">
-                    Mode: {msg.card_data.application_mode || 'Online Portal'}
+                    {language === 'ta' ? 'முறை' : language === 'hi' ? 'प्रकार' : 'Mode'}: {msg.card_data.application_mode || (language === 'ta' ? 'இணையதளம்' : language === 'hi' ? 'ऑनलाइन पोर्टल' : 'Online Portal')}
                   </span>
                 </div>
 
                 <div>
                   <h4 className="font-bold text-base text-slate-900 dark:text-white">
-                    {msg.card_data.scheme_name}
+                    {translateSchemeName(msg.card_data.scheme_id, msg.card_data.scheme_name)}
                   </h4>
                   <p className="text-[11px] text-slate-500 mt-0.5">
                     {msg.card_data.eligibility_summary}
@@ -409,7 +397,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                 {msg.card_data.info_to_keep_ready && (
                   <div className="p-3.5 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 space-y-2">
                     <span className="font-bold text-amber-900 dark:text-amber-300 block text-[11px] uppercase tracking-wider">
-                      📋 Items to Keep Ready Before Starting:
+                      {language === 'ta' ? '📋 தொடங்குவதற்கு முன் தயாராக வைத்திருக்க வேண்டியவை:' : language === 'hi' ? '📋 शुरू करने से पहले तैयार रखने योग्य वस्तुएं:' : '📋 Items to Keep Ready Before Starting:'}
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-amber-950 dark:text-amber-200 text-[11px]">
                       {msg.card_data.info_to_keep_ready.map((item: string, idx: number) => (
@@ -425,7 +413,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                 {/* Numbered Application Steps */}
                 <div className="space-y-2">
                   <span className="font-bold text-slate-700 dark:text-slate-300 block text-[11px] uppercase tracking-wider">
-                    Step-by-Step Official Application Flow:
+                    {language === 'ta' ? 'அதிகாரப்பூர்வ விண்ணப்ப முறை (படிப்படியாக):' : language === 'hi' ? 'चरणबद्ध आधिकारिक आवेदन प्रक्रिया:' : 'Step-by-Step Official Application Flow:'}
                   </span>
                   {msg.card_data.application_steps?.map((s: any, i: number) => (
                     <div key={i} className="flex items-start gap-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
@@ -445,9 +433,11 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-indigo-900 dark:text-indigo-300 text-[11px] flex items-center gap-1">
                       <HelpCircle className="w-3.5 h-3.5 text-indigo-600" />
-                      Portal Form Field Explainer:
+                      {language === 'ta' ? 'விண்ணப்ப படிவ விதி விளக்கங்கள்:' : language === 'hi' ? 'आवेदन फॉर्म प्रविष्टि विवरण:' : 'Portal Form Field Explainer:'}
                     </span>
-                    <span className="text-[10px] text-indigo-500 font-medium">Click a term to explain</span>
+                    <span className="text-[10px] text-indigo-500 font-medium">
+                      {language === 'ta' ? 'விளக்கத்திற்கு ஒரு சொல்லைத் தேர்ந்தெடுக்கவும்' : language === 'hi' ? 'विवरण देखने के लिए किसी शब्द पर क्लिक करें' : 'Click a term to explain'}
+                    </span>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {Object.entries(FORM_FIELD_EXPLANATIONS).map(([key, val]) => (
@@ -481,7 +471,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                       </p>
                       <div className="text-[10px] text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 p-1.5 rounded flex items-start gap-1">
                         <AlertCircle className="w-3 h-3 shrink-0 mt-0.5" />
-                        <span><strong>Common Pitfall:</strong> {FORM_FIELD_EXPLANATIONS[selectedFormField].pitfall}</span>
+                        <span><strong>{language === 'ta' ? 'பொதுவான தவறு:' : language === 'hi' ? 'सामान्य गलती:' : 'Common Pitfall:'}</strong> {FORM_FIELD_EXPLANATIONS[selectedFormField].pitfall}</span>
                       </div>
                     </div>
                   )}
@@ -491,7 +481,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                 {msg.card_data.after_submission_steps && (
                   <div className="space-y-1">
                     <span className="font-semibold text-slate-700 dark:text-slate-300 block text-[11px]">
-                      Post-Submission Checklist:
+                      {language === 'ta' ? 'சமர்ப்பித்த பின் சரிபார்ப்புப் பட்டியல்:' : language === 'hi' ? 'जमा करने के बाद की चेकलिस्ट:' : 'Post-Submission Checklist:'}
                     </span>
                     {msg.card_data.after_submission_steps.map((step: string, idx: number) => (
                       <div key={idx} className="flex items-center gap-1.5 text-slate-500 text-[11px]">
@@ -510,7 +500,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                     rel="noreferrer"
                     className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center gap-1.5 shadow-sm transition-colors text-xs"
                   >
-                    <span>{t.proceedToOfficialPortal}</span>
+                    <span>{t.applyOnOfficialPortal}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
 
@@ -518,7 +508,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
                     to="/applications"
                     className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-colors"
                   >
-                    {t.trackManuallyDashboard}
+                    {t.trackManually}
                   </Link>
                 </div>
               </div>
@@ -528,19 +518,19 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
             {msg.card_type === 'document_guidance' && msg.card_data && (
               <div className="w-full max-w-2xl p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-2.5 text-xs">
                 <span className="text-[10px] font-bold uppercase text-emerald-600">
-                  Document Procurement Guide
+                  {t.howToGetDoc}
                 </span>
                 <h4 className="font-bold text-sm text-slate-900 dark:text-white">
-                  {msg.card_data.document_name}
+                  {translateDocName(msg.card_data.document_name)}
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300">
-                  <strong>Issued By:</strong> {msg.card_data.who_issues}
+                  <strong>{t.whoIssues}:</strong> {msg.card_data.who_issues}
                 </p>
                 <p className="text-slate-600 dark:text-slate-300">
-                  <strong>Where to Apply:</strong> {msg.card_data.where_to_apply} ({msg.card_data.online_offline})
+                  <strong>{t.whereToApply}:</strong> {msg.card_data.where_to_apply} ({msg.card_data.online_offline})
                 </p>
                 <div className="space-y-1">
-                  <strong className="block text-slate-800 dark:text-slate-200">Steps to Apply:</strong>
+                  <strong className="block text-slate-800 dark:text-slate-200">{t.stepByStepProcedure}</strong>
                   {msg.card_data.expected_process?.map((p: string, i: number) => (
                     <div key={i} className="text-slate-500 pl-2">
                       • {p}
@@ -571,7 +561,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
           <div className="flex items-center gap-2 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 max-w-sm">
             <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
             <span className="text-xs text-slate-500">
-              Orchestrating agents & evaluating rules...
+              {language === 'ta' ? 'முகவர்கள் ஒருங்கிணைக்கப்பட்டு விதிகள் மதிப்பீடு செய்யப்படுகின்றன...' : language === 'hi' ? 'एजेंट समन्वय और नियम मूल्यांकन जारी है...' : 'Orchestrating agents & evaluating rules...'}
             </span>
           </div>
         )}
@@ -600,7 +590,7 @@ export const AIAssistantPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenV
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder={t.searchPlaceholder}
+          placeholder={t.typeMessage}
           className="flex-1 px-3 py-2 text-xs sm:text-sm bg-transparent text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none"
         />
 

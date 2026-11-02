@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-  Citizen Benefit Intelligence Platform PowerShell Launcher
+  SIH 2026 Multi-Agent Citizen Benefits Platform PowerShell Launcher
 #>
 Write-Host "======================================================================" -ForegroundColor Cyan
-Write-Host "   CITIZEN BENEFIT INTELLIGENCE: MULTI-AGENT PLATFORM" -ForegroundColor Yellow
+Write-Host "   SIH 2026: MULTI-AGENT INTELLIGENCE FOR CITIZEN BENEFITS" -ForegroundColor Yellow
 Write-Host "======================================================================" -ForegroundColor Cyan
 
 Set-Location -Path $PSScriptRoot

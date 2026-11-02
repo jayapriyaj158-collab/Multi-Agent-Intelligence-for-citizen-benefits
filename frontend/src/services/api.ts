@@ -27,11 +27,23 @@ export const api = {
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email: email.trim(), password })
     });
     if (!res.ok) {
-      const err = await res.json().catch(() => ({ detail: 'Login failed' }));
-      throw new Error(err.detail || 'Login failed');
+      let message = 'Login failed';
+      try {
+        const err = await res.json();
+        if (typeof err.detail === 'string') {
+          message = err.detail;
+        } else if (Array.isArray(err.detail)) {
+          message = err.detail.map((d: any) => d.msg || JSON.stringify(d)).join(', ');
+        }
+      } catch {
+        if (res.status === 502 || res.status === 504 || res.status === 500) {
+          message = 'Backend server not responding. Please make sure the backend is running on port 8001.';
+        }
+      }
+      throw new Error(message);
     }
     return res.json();
   },

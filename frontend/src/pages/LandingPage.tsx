@@ -21,9 +21,11 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
 
 export const LandingPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice }) => {
   const { t } = useLanguage();
+  const { loginAsDemoCitizen } = useAuth();
   const navigate = useNavigate();
 
   const handleQuickCategory = (cat: string) => {
@@ -41,7 +43,7 @@ export const LandingPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-xs font-semibold text-indigo-700 dark:text-indigo-300 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-pulse" />
-            <span>Autonomous Multi-Agent AI + RAG + Explainable Eligibility</span>
+            <span>System Innovation: Multi-Agent AI + RAG + Explainable Eligibility</span>
           </div>
 
           {/* Main Title & USP */}
@@ -189,7 +191,7 @@ export const LandingPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice
         </div>
       </section>
 
-      {/* Demo Scenario Highlight (Requirement #55 & #56) */}
+      {/* Benchmark Scenario Highlight */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white shadow-xl space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-indigo-800/80 pb-6">
@@ -198,7 +200,7 @@ export const LandingPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice
                 Live Interactive Scenario
               </span>
               <h3 className="text-xl sm:text-2xl font-bold mt-1">
-                Citizen Interaction Benchmark Scenario
+                Benchmark Evaluation Scenario
               </h3>
             </div>
             <button

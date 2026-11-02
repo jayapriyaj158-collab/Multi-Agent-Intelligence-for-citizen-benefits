@@ -7,7 +7,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -27,9 +27,9 @@ export const RegisterPage: React.FC = () => {
         password,
         phone: phone || undefined
       });
-      navigate('/dashboard');
+      navigate('/profile');
     } catch (err: any) {
-      setError(err.message || t.registerFailed);
+      setError(err.message || (language === 'ta' ? 'பதிவு தோல்வியடைந்தது' : language === 'hi' ? 'पंजीकरण विफल रहा' : 'Registration failed'));
     } finally {
       setLoading(false);
     }
@@ -68,7 +68,7 @@ export const RegisterPage: React.FC = () => {
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder={t.fullNamePlaceholder}
+              placeholder="e.g. Karthik Subramanian"
               className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -85,7 +85,7 @@ export const RegisterPage: React.FC = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder={t.emailPlaceholder}
+              placeholder="karthik@example.com"
               className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -101,7 +101,7 @@ export const RegisterPage: React.FC = () => {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder={t.phonePlaceholder}
+              placeholder="9840123456"
               className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -109,7 +109,7 @@ export const RegisterPage: React.FC = () => {
 
         <div>
           <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-            {t.passwordLabel}
+            {t.password}
           </label>
           <div className="relative">
             <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -118,7 +118,7 @@ export const RegisterPage: React.FC = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={t.passwordPlaceholder}
+              placeholder="••••••••"
               className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -129,14 +129,14 @@ export const RegisterPage: React.FC = () => {
           disabled={loading}
           className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs transition-colors shadow-sm flex items-center justify-center gap-1.5"
         >
-          <span>{t.registerAction}</span>
+          <span>{t.completeRegistrationBtn}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
 
         <div className="text-center pt-2 text-xs text-slate-500">
-          {t.alreadyAccountText}{' '}
+          {t.alreadyRegistered}{' '}
           <Link to="/login" className="text-indigo-600 hover:underline font-semibold">
-            {t.loginAction}
+            {t.signInHere}
           </Link>
         </div>
       </form>

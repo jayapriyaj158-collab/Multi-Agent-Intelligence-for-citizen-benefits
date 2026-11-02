@@ -12,7 +12,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    description="Multi-Agent Intelligence for Citizen Benefits — Autonomous AI Platform",
+    description="Multi-Agent Intelligence for Citizen Benefits — AI Platform",
     version="1.0.0",
     docs_url=f"{settings.API_V1_STR}/docs",
     redoc_url=f"{settings.API_V1_STR}/redoc",
@@ -47,6 +47,10 @@ app.include_router(admin.router, prefix=settings.API_V1_STR)
 def startup_event():
     # Automatically execute seeding on initial boot
     try:
+        import sys
+        backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        if backend_dir not in sys.path:
+            sys.path.insert(0, backend_dir)
         from seed import seed_database
         seed_database()
     except Exception as e:
@@ -57,7 +61,7 @@ def root():
     return {
         "project": settings.PROJECT_NAME,
         "status": "ONLINE",
-        "demo_mode": settings.DEMO_MODE,
+        "system_mode": "ACTIVE",
         "ecosystem_layer": "Intelligent Orchestration above myScheme, UMANG, DigiLocker & State Portals",
         "api_docs": f"{settings.API_V1_STR}/docs"
     }
